@@ -1,66 +1,157 @@
 import { MadeWithDyad } from "@/components/made-with-dyad";
-import FinancialSummaryCard from "@/components/FinancialSummaryCard";
-import ExpenseChart from "@/components/ExpenseChart";
-import RecentTransactions from "@/components/RecentTransactions";
-import BudgetProgress from "@/components/BudgetProgress";
-import FinancialGoals from "@/components/FinancialGoals";
+import EditableFinancialSummaryCard from "@/components/EditableFinancialSummaryCard";
+import CozyExpenseChart from "@/components/CozyExpenseChart";
+import CozyRecentTransactions from "@/components/CozyRecentTransactions";
+import CozyFinancialGoals from "@/components/CozyFinancialGoals";
+import AddTransactionDialog from "@/components/AddTransactionDialog";
 import { DollarSign, TrendingUp, CreditCard, PiggyBank } from "lucide-react";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { Transaction, Goal, FinancialData } from "@/types/finance";
+import { showSuccess, showError } from "@/utils/toast";
+
+const initialData: FinancialData = {
+  transactions: [],
+  budgets: [],
+  goals: []
+};
 
 const Index = () => {
+  const [financialData, setFinancialData] = useLocalStorage<FinancialData>('financial-data', initialData);
+
+  const addTransaction = (transactionData: Omit<Transaction, 'id'>) => {
+    const newTransaction: Transaction = {
+      ...transactionData,
+      id: Date.now().toString()
+    };
+    
+    setFinancialData(prev => ({
+      ...prev,
+      transactions: [...prev.transactions, newTransaction]
+    }));
+    
+    showSuccess('Transaction added successfully! 🎉');
+  };
+
+  const deleteTransaction = (id: string) => {
+    setFinancialData(prev => ({
+      ...prev,
+      transactions: prev.transactions.filter(t => t.id !== id)
+    }));
+    showSuccess('Transaction deleted! 🗑️');
+  };
+
+  const addGoal = (goalData: Omit<Goal, 'id'>) => {
+    const newGoal: Goal = {
+      ...goalData,
+      id: Date.now().toString()
+    };
+    
+    setFinancialData(prev => ({
+      ...prev,
+      goals: [...prev.goals, newGoal]
+    }));
+    
+    showSuccess('Goal added successfully! 🎯');
+  };
+
+  const updateGoal = (id: string, currentAmount: number) => {
+    setFinancialData(prev => ({
+      ...prev,
+      goals: prev.goals.map(goal => 
+        goal.id === id ? { ...goal, currentAmount } : goal
+      )
+    }));
+    showSuccess('Goal updated! 💪');
+  };
+
+  const deleteGoal = (id: string) => {
+    setFinancialData(prev => ({
+      ...prev,
+      goals: prev.goals.filter(g => g.id !== id)
+    }));
+    showSuccess('Goal deleted! 🗑️');
+  };
+
+  // Calculate financial summary
+  const totalIncome = financialData.transactions
+    .filter(t => t.type === 'income')
+    .reduce((sum, t) => sum + t.amount, 0);
+
+  const totalExpenses = financialData.transactions
+    .filter(t => t.type === 'expense')
+    .reduce((sum, t) => sum + Math.abs(t.amount), 0);
+
+  const totalBalance = totalIncome - totalExpenses;
+  const totalSavings = financialData.goals.reduce((sum, goal) => sum + goal.currentAmount, 0);
+
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-amber-100 via-orange-50 to-yellow-100 p-6">
       <div className="max-w-7xl mx-auto space-y-6">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">Personal Finance Dashboard</h1>
-          <p className="text-lg text-gray-600">Track your income, expenses, and financial goals</p>
+        {/* Cozy Header */}
+        <div className="text-center mb-8 p-6 bg-white/60 backdrop-blur-sm rounded-2xl border border-amber-200 shadow-lg">
+          <h1 className="text-4xl font-bold text-amber-900 mb-2">
+            🏠 Cozy Finance Dashboard
+          </h1>
+          <p className="text-lg text-amber-700 mb-4">
+            Your warm and welcoming space to manage finances ☕
+          </p>
+          <AddTransactionDialog onAddTransaction={addTransaction} />
         </div>
 
         {/* Summary Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <FinancialSummaryCard
+          <EditableFinancialSummaryCard
             title="Total Balance"
-            amount={12450.75}
+            amount={totalBalance}
             change={8.2}
             changeType="increase"
-            icon={<DollarSign className="h-4 w-4 text-muted-foreground" />}
+            icon={<DollarSign className="h-4 w-4" />}
           />
-          <FinancialSummaryCard
+          <EditableFinancialSummaryCard
             title="Monthly Income"
-            amount={4000}
+            amount={totalIncome}
             change={5.1}
             changeType="increase"
-            icon={<TrendingUp className="h-4 w-4 text-muted-foreground" />}
+            icon={<TrendingUp className="h-4 w-4" />}
           />
-          <FinancialSummaryCard
+          <EditableFinancialSummaryCard
             title="Monthly Expenses"
-            amount={2500}
+            amount={totalExpenses}
             change={3.2}
             changeType="decrease"
-            icon={<CreditCard className="h-4 w-4 text-muted-foreground" />}
+            icon={<CreditCard className="h-4 w-4" />}
           />
-          <FinancialSummaryCard
-            title="Savings"
-            amount={8750.50}
+          <EditableFinancialSummaryCard
+            title="Total Savings"
+            amount={totalSavings}
             change={12.5}
             changeType="increase"
-            icon={<PiggyBank className="h-4 w-4 text-muted-foreground" />}
+            icon={<PiggyBank className="h-4 w-4" />}
           />
         </div>
 
-        {/* Charts and Data */}
+        {/* Charts and Transactions */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          <ExpenseChart />
-          <RecentTransactions />
+          <CozyExpenseChart transactions={financialData.transactions} />
+          <CozyRecentTransactions 
+            transactions={financialData.transactions}
+            onDeleteTransaction={deleteTransaction}
+          />
         </div>
 
-        {/* Budget and Goals */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          <BudgetProgress />
-          <FinancialGoals />
+        {/* Goals Section */}
+        <div className="grid grid-cols-1 gap-6">
+          <CozyFinancialGoals 
+            goals={financialData.goals}
+            onAddGoal={addGoal}
+            onUpdateGoal={updateGoal}
+            onDeleteGoal={deleteGoal}
+          />
         </div>
 
-        <MadeWithDyad />
+        <div className="text-center p-4 bg-white/40 backdrop-blur-sm rounded-xl border border-amber-200">
+          <MadeWithDyad />
+        </div>
       </div>
     </div>
   );
