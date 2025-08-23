@@ -12,10 +12,17 @@ interface ModernRecentTransactionsProps {
 
 const ModernRecentTransactions = ({ transactions, onDeleteTransaction, currency }: ModernRecentTransactionsProps) => {
   const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: currency
-    }).format(Math.abs(value));
+    try {
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: currency,
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }).format(Math.abs(value));
+    } catch (error) {
+      // Fallback if currency is invalid
+      return `$${Math.abs(value).toFixed(2)}`;
+    }
   };
 
   const recentTransactions = transactions
@@ -34,14 +41,14 @@ const ModernRecentTransactions = ({ transactions, onDeleteTransaction, currency 
           {recentTransactions.map((transaction, index) => (
             <div 
               key={transaction.id} 
-              className="flex flex-col md:flex-row items-center justify-between p-4 bg-gray-50/80 rounded-2xl hover:bg-gray-100/80 transition-all duration-200 group border border-gray-100"
+              className="flex flex-col md:flex-row items-center justify-between p-4 bg-gray-50/80 rounded-2xl hover:bg-gray-100/80 transition-all duration-200 group border border-gray-100 gap-4"
               style={{ 
                 animationDelay: `${index * 50}ms`,
                 animation: 'slideInFromLeft 0.3s ease-out forwards'
               }}
             >
-              <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4">
-                <div className={`p-3 rounded-full ${
+              <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4 w-full md:w-auto">
+                <div className={`p-3 rounded-full flex-shrink-0 ${
                   transaction.type === 'income' 
                     ? 'bg-green-100 text-green-600' 
                     : 'bg-red-100 text-red-600'
@@ -52,31 +59,34 @@ const ModernRecentTransactions = ({ transactions, onDeleteTransaction, currency 
                     <ArrowDownRight className="h-5 w-5" />
                   )}
                 </div>
-                <div className="text-center md:text-left">
-                  <p className="font-semibold text-gray-900">{transaction.description}</p>
-                  <p className="text-sm text-gray-600">{transaction.date}</p>
+                <div className="text-center md:text-left flex-grow">
+                  <p className="font-semibold text-gray-900 text-base">{transaction.description}</p>
+                  <p className="text-sm text-gray-600">{new Date(transaction.date).toLocaleDateString()}</p>
                 </div>
               </div>
-              <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-3 mt-2 md:mt-0">
+              
+              <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-3 w-full md:w-auto justify-center md:justify-end">
                 <Badge 
                   variant="secondary" 
-                  className="bg-purple-100 text-purple-800 hover:bg-purple-200 rounded-full px-3 py-1 border border-purple-200"
+                  className="bg-purple-100 text-purple-800 hover:bg-purple-200 rounded-full px-3 py-1 border border-purple-200 text-xs"
                 >
                   {transaction.category}
                 </Badge>
-                <span className={`font-bold text-lg ${
-                  transaction.type === 'income' ? 'text-green-600' : 'text-red-600'
-                }`}>
-                  {transaction.type === 'income' ? '+' : '-'}{formatCurrency(transaction.amount)}
-                </span>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => onDeleteTransaction(transaction.id)}
-                  className="text-red-500 hover:text-red-700 hover:bg-red-50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-                >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
+                <div className="flex items-center gap-2">
+                  <span className={`font-bold text-lg ${
+                    transaction.type === 'income' ? 'text-green-600' : 'text-red-600'
+                  }`}>
+                    {transaction.type === 'income' ? '+' : '-'}{formatCurrency(transaction.amount)}
+                  </span>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => onDeleteTransaction(transaction.id)}
+                    className="text-red-500 hover:text-red-700 hover:bg-red-50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200 ml-2"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </div>
               </div>
             </div>
           ))}

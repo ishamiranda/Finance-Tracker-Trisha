@@ -27,10 +27,17 @@ const ModernExpenseChart = ({ transactions, currency }: ModernExpenseChartProps)
     }, [] as { name: string; value: number; color: string }[]);
 
   const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: currency
-    }).format(value);
+    try {
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: currency,
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }).format(value);
+    } catch (error) {
+      // Fallback if currency is invalid
+      return `$${value.toFixed(2)}`;
+    }
   };
 
   return (
@@ -49,7 +56,7 @@ const ModernExpenseChart = ({ transactions, currency }: ModernExpenseChartProps)
                 cx="50%"
                 cy="50%"
                 labelLine={false}
-                outerRadius={90}
+                outerRadius={80}
                 fill="#8884d8"
                 dataKey="value"
                 label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}

@@ -19,10 +19,17 @@ const ModernFinancialSummaryCard = ({
   currency
 }: ModernFinancialSummaryCardProps) => {
   const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: currency
-    }).format(value);
+    try {
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: currency,
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }).format(value);
+    } catch (error) {
+      // Fallback if currency is invalid
+      return `$${value.toFixed(2)}`;
+    }
   };
 
   return (
@@ -36,7 +43,7 @@ const ModernFinancialSummaryCard = ({
         </div>
       </CardHeader>
       <CardContent>
-        <div className="text-3xl font-bold text-gray-900 mb-2 tracking-tight text-center md:text-left">
+        <div className="text-2xl md:text-3xl font-bold text-gray-900 mb-2 tracking-tight text-center md:text-left">
           {formatCurrency(amount)}
         </div>
         {change !== undefined && (

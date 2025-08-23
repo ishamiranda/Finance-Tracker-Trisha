@@ -20,10 +20,17 @@ const ModernFinancialGoals = ({ goals, onAddGoal, onUpdateGoal, onDeleteGoal, cu
   const [editAmount, setEditAmount] = useState<string>('');
 
   const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: currency
-    }).format(value);
+    try {
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: currency,
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }).format(value);
+    } catch (error) {
+      // Fallback if currency is invalid
+      return `$${value.toFixed(2)}`;
+    }
   };
 
   const formatDate = (dateString: string) => {
@@ -73,12 +80,12 @@ const ModernFinancialGoals = ({ goals, onAddGoal, onUpdateGoal, onDeleteGoal, cu
                   animation: 'slideInFromRight 0.4s ease-out forwards'
                 }}
               >
-                <div className="flex flex-col md:flex-row items-center justify-between">
+                <div className="flex flex-col md:flex-row items-center justify-between gap-4">
                   <div className="flex-1 text-center md:text-left">
                     <h3 className="font-bold text-gray-900 text-lg">{goal.title}</h3>
                     <p className="text-sm text-purple-700 font-medium">{goal.category}</p>
                   </div>
-                  <div className="flex items-center gap-2 mt-4 md:mt-0">
+                  <div className="flex items-center gap-2">
                     {editingGoal === goal.id ? (
                       <div className="flex items-center gap-2">
                         <Input
@@ -130,7 +137,7 @@ const ModernFinancialGoals = ({ goals, onAddGoal, onUpdateGoal, onDeleteGoal, cu
                     value={percentage} 
                     className="h-3 bg-purple-100 rounded-full overflow-hidden"
                   />
-                  <div className="flex flex-col md:flex-row justify-between items-center text-sm">
+                  <div className="flex flex-col md:flex-row justify-between items-center text-sm gap-2">
                     <span className="text-purple-700 font-medium">
                       {percentage.toFixed(1)}% complete
                     </span>
