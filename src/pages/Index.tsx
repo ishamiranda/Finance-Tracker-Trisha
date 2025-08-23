@@ -5,6 +5,7 @@ import ModernFinancialGoals from "@/components/ModernFinancialGoals";
 import ModernAddTransactionDialog from "@/components/ModernAddTransactionDialog";
 import ExportAndFilterSection from "@/components/ExportAndFilterSection";
 import CurrencySelector from "@/components/CurrencySelector";
+import Footer from "@/components/Footer";
 import { DollarSign, TrendingUp, CreditCard, PiggyBank } from "lucide-react";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { Transaction, Goal, FinancialData } from "@/types/finance";
@@ -186,6 +187,9 @@ const Index = () => {
             currency={selectedCurrency}
           />
         </div>
+
+        {/* Footer */}
+        <Footer />
       </div>
     </div>
   );
