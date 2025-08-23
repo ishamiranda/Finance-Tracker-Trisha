@@ -39,6 +39,11 @@ const ExportAndFilterSection = ({ transactions, currency }: ExportAndFilterSecti
   };
 
   const months = [
+    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+  ];
+
+  const fullMonths = [
     'January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'
   ];
@@ -175,7 +180,7 @@ const ExportAndFilterSection = ({ transactions, currency }: ExportAndFilterSecti
             <span className="text-2xl">✨</span>
           </CardTitle>
           
-          {/* Enhanced Month Navigation with Dropdown */}
+          {/* Enhanced Month Navigation with Compact Dropdown */}
           <div className="flex items-center gap-3 bg-purple-50/90 backdrop-blur-md rounded-2xl px-4 py-2 shadow-lg border border-purple-200/50 hover:shadow-xl transition-shadow duration-200">
             <Button
               onClick={goToPreviousMonth}
@@ -189,7 +194,7 @@ const ExportAndFilterSection = ({ transactions, currency }: ExportAndFilterSecti
             <div className="flex items-center gap-2">
               <span className="text-lg">🗓️</span>
               <span className="text-sm font-medium text-gray-700 min-w-[120px] text-center">
-                {months[selectedMonth]} {selectedYear}
+                {fullMonths[selectedMonth]} {selectedYear}
               </span>
             </div>
             
@@ -202,7 +207,7 @@ const ExportAndFilterSection = ({ transactions, currency }: ExportAndFilterSecti
               <ChevronRight className="h-4 w-4" />
             </Button>
 
-            {/* Three Dots Dropdown Menu */}
+            {/* Compact Three Dots Dropdown Menu */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
@@ -213,49 +218,55 @@ const ExportAndFilterSection = ({ transactions, currency }: ExportAndFilterSecti
                   <MoreHorizontal className="h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-white/95 backdrop-blur-md border-0 rounded-2xl shadow-xl p-2 min-w-[200px]">
-                <div className="px-2 py-1 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-                  📅 Select Month
+              <DropdownMenuContent className="bg-white/95 backdrop-blur-md border-0 rounded-2xl shadow-xl p-1 w-48">
+                {/* Months in a compact grid */}
+                <div className="px-2 py-1">
+                  <div className="text-xs font-semibold text-gray-500 mb-2">📅 Month</div>
+                  <div className="grid grid-cols-3 gap-1">
+                    {months.map((month, index) => (
+                      <DropdownMenuItem
+                        key={month}
+                        onClick={() => setSelectedMonth(index)}
+                        className={`rounded-lg cursor-pointer text-xs py-1 px-2 text-center ${
+                          selectedMonth === index ? 'bg-purple-100 text-purple-900 font-medium' : 'hover:bg-purple-50'
+                        }`}
+                      >
+                        {month}
+                      </DropdownMenuItem>
+                    ))}
+                  </div>
                 </div>
-                {months.map((month, index) => (
-                  <DropdownMenuItem
-                    key={month}
-                    onClick={() => setSelectedMonth(index)}
-                    className={`rounded-xl cursor-pointer ${
-                      selectedMonth === index ? 'bg-purple-100 text-purple-900' : 'hover:bg-purple-50'
-                    }`}
-                  >
-                    {month}
-                  </DropdownMenuItem>
-                ))}
                 
-                <DropdownMenuSeparator className="my-2" />
+                <DropdownMenuSeparator className="my-1" />
                 
-                <div className="px-2 py-1 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-                  📆 Select Year
-                </div>
-                <div className="max-h-40 overflow-y-auto">
-                  {availableYears.map((year) => (
-                    <DropdownMenuItem
-                      key={year}
-                      onClick={() => setSelectedYear(year)}
-                      className={`rounded-xl cursor-pointer ${
-                        selectedYear === year ? 'bg-purple-100 text-purple-900' : 'hover:bg-purple-50'
-                      }`}
-                    >
-                      {year}
-                    </DropdownMenuItem>
-                  ))}
+                {/* Years in a compact scrollable list */}
+                <div className="px-2 py-1">
+                  <div className="text-xs font-semibold text-gray-500 mb-2">📆 Year</div>
+                  <div className="max-h-32 overflow-y-auto">
+                    <div className="grid grid-cols-2 gap-1">
+                      {availableYears.slice(0, 20).map((year) => (
+                        <DropdownMenuItem
+                          key={year}
+                          onClick={() => setSelectedYear(year)}
+                          className={`rounded-lg cursor-pointer text-xs py-1 px-2 text-center ${
+                            selectedYear === year ? 'bg-purple-100 text-purple-900 font-medium' : 'hover:bg-purple-50'
+                          }`}
+                        >
+                          {year}
+                        </DropdownMenuItem>
+                      ))}
+                    </div>
+                  </div>
                 </div>
 
                 {!isCurrentMonth && (
                   <>
-                    <DropdownMenuSeparator className="my-2" />
+                    <DropdownMenuSeparator className="my-1" />
                     <DropdownMenuItem
                       onClick={goToCurrentMonth}
-                      className="rounded-xl cursor-pointer hover:bg-blue-50 text-blue-600 font-medium"
+                      className="rounded-lg cursor-pointer hover:bg-blue-50 text-blue-600 font-medium text-xs py-2 mx-1"
                     >
-                      🏠 Go to Current Month
+                      🏠 Current Month
                     </DropdownMenuItem>
                   </>
                 )}
