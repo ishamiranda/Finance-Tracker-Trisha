@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Download, Filter, Calendar, DollarSign, TrendingUp, TrendingDown } from "lucide-react";
+import { Download, Filter, Calendar, DollarSign, TrendingUp, TrendingDown, ChevronLeft, ChevronRight } from "lucide-react";
 import { Transaction } from "@/types/finance";
 import { showSuccess } from "@/utils/toast";
 
@@ -18,6 +18,11 @@ const ExportAndFilterSection = ({ transactions, currency }: ExportAndFilterSecti
   const [filterYear, setFilterYear] = useState<string>('all');
   const [startDate, setStartDate] = useState<string>('');
   const [endDate, setEndDate] = useState<string>('');
+  
+  // Month view state
+  const currentDate = new Date();
+  const [selectedMonth, setSelectedMonth] = useState(currentDate.getMonth());
+  const [selectedYear, setSelectedYear] = useState(currentDate.getFullYear());
 
   const formatCurrency = (value: number) => {
     try {
@@ -32,29 +37,59 @@ const ExportAndFilterSection = ({ transactions, currency }: ExportAndFilterSecti
     }
   };
 
-  // Get current month data
-  const currentDate = new Date();
-  const currentMonth = currentDate.getMonth();
-  const currentYear = currentDate.getFullYear();
-
-  const currentMonthTransactions = transactions.filter(t => {
-    const transactionDate = new Date(t.date);
-    return transactionDate.getMonth() === currentMonth && transactionDate.getFullYear() === currentYear;
-  });
-
-  const currentMonthIncome = currentMonthTransactions
-    .filter(t => t.type === 'income')
-    .reduce((sum, t) => sum + t.amount, 0);
-
-  const currentMonthExpenses = currentMonthTransactions
-    .filter(t => t.type === 'expense')
-    .reduce((sum, t) => sum + Math.abs(t.amount), 0);
+  const months = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ];
 
   // Get available years from transactions
   const availableYears = [...new Set(transactions.map(t => new Date(t.date).getFullYear()))]
     .sort((a, b) => b - a);
 
-  // Filter transactions based on current filters
+  // Add current year if no transactions exist yet
+  if (availableYears.length === 0) {
+    availableYears.push(currentDate.getFullYear());
+  }
+
+  // Get selected month data
+  const selectedMonthTransactions = transactions.filter(t => {
+    const transactionDate = new Date(t.date);
+    return transactionDate.getMonth() === selectedMonth && transactionDate.getFullYear() === selectedYear;
+  });
+
+  const selectedMonthIncome = selectedMonthTransactions
+    .filter(t => t.type === 'income')
+    .reduce((sum, t) => sum + t.amount, 0);
+
+  const selectedMonthExpenses = selectedMonthTransactions
+    .filter(t => t.type === 'expense')
+    .reduce((sum, t) => sum + Math.abs(t.amount), 0);
+
+  // Navigation functions
+  const goToPreviousMonth = () => {
+    if (selectedMonth === 0) {
+      setSelectedMonth(11);
+      setSelectedYear(selectedYear - 1);
+    } else {
+      setSelectedMonth(selectedMonth - 1);
+    }
+  };
+
+  const goToNextMonth = () => {
+    if (selectedMonth === 11) {
+      setSelectedMonth(0);
+      setSelectedYear(selectedYear + 1);
+    } else {
+      setSelectedMonth(selectedMonth + 1);
+    }
+  };
+
+  const goToCurrentMonth = () => {
+    setSelectedMonth(currentDate.getMonth());
+    setSelectedYear(currentDate.getFullYear());
+  };
+
+  // Filter transactions based on current filters (for export)
   const getFilteredTransactions = () => {
     let filtered = transactions;
 
@@ -125,6 +160,7 @@ const ExportAndFilterSection = ({ transactions, currency }: ExportAndFilterSecti
   };
 
   const filteredCount = getFilteredTransactions().length;
+  const isCurrentMonth = selectedMonth === currentDate.getMonth() && selectedYear === currentDate.getFullYear();
 
   return (
     <Card className="bg-white/90 backdrop-blur-md border border-gray-200/50 shadow-lg rounded-3xl overflow-hidden">
@@ -134,31 +170,116 @@ const ExportAndFilterSection = ({ transactions, currency }: ExportAndFilterSecti
         </CardTitle>
       </CardHeader>
       <CardContent className="p-4 space-y-6">
-        {/* Current Month Summary */}
+        {/* Month Navigation */}
+        <div className="bg-gradient-to-r from-purple-50 to-pink-50 p-4 rounded-2xl border border-purple-200">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <Calendar className="h-5 w-5 text-purple-600" />
+              <h3 className="text-lg font-semibold text-purple-900">Monthly Overview</h3>
+            </div>
+            {!isCurrentMonth && (
+              <Button
+                onClick={goToCurrentMonth}
+                variant="outline"
+                size="sm"
+                className="border-purple-300 text-purple-700 hover:bg-purple-100 rounded-xl"
+              >
+                Current Month
+              </Button>
+            )}
+          </div>
+          
+          <div className="flex items-center justify-center gap-4 mb-4">
+            <Button
+              onClick={goToPreviousMonth}
+              variant="ghost"
+              size="sm"
+              className="text-purple-600 hover:bg-purple-100 rounded-full p-2"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </Button>
+            
+            <div className="flex items-center gap-4">
+              <Select 
+                value={selectedMonth.toString()} 
+                onValueChange={(value) => setSelectedMonth(parseInt(value))}
+              >
+                <SelectTrigger className="border-purple-200 rounded-xl min-w-[140px]">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent className="bg-white/95 backdrop-blur-md border-0 rounded-2xl shadow-xl">
+                  {months.map((month, index) => (
+                    <SelectItem key={index} value={index.toString()}>{month}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              
+              <Select 
+                value={selectedYear.toString()} 
+                onValueChange={(value) => setSelectedYear(parseInt(value))}
+              >
+                <SelectTrigger className="border-purple-200 rounded-xl min-w-[100px]">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent className="bg-white/95 backdrop-blur-md border-0 rounded-2xl shadow-xl">
+                  {availableYears.map(year => (
+                    <SelectItem key={year} value={year.toString()}>{year}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <Button
+              onClick={goToNextMonth}
+              variant="ghost"
+              size="sm"
+              className="text-purple-600 hover:bg-purple-100 rounded-full p-2"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </Button>
+          </div>
+        </div>
+
+        {/* Selected Month Summary */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-gradient-to-r from-green-50 to-emerald-50 p-4 rounded-2xl border border-green-200">
             <div className="flex items-center gap-2 mb-2">
               <TrendingUp className="h-5 w-5 text-green-600" />
-              <span className="text-sm font-semibold text-green-800">This Month Income</span>
+              <span className="text-sm font-semibold text-green-800">
+                {months[selectedMonth]} {selectedYear} Income
+              </span>
             </div>
-            <p className="text-2xl font-bold text-green-900">{formatCurrency(currentMonthIncome)}</p>
+            <p className="text-2xl font-bold text-green-900">{formatCurrency(selectedMonthIncome)}</p>
+            <p className="text-xs text-green-700 mt-1">
+              {selectedMonthTransactions.filter(t => t.type === 'income').length} transactions
+            </p>
           </div>
           
           <div className="bg-gradient-to-r from-red-50 to-rose-50 p-4 rounded-2xl border border-red-200">
             <div className="flex items-center gap-2 mb-2">
               <TrendingDown className="h-5 w-5 text-red-600" />
-              <span className="text-sm font-semibold text-red-800">This Month Expenses</span>
+              <span className="text-sm font-semibold text-red-800">
+                {months[selectedMonth]} {selectedYear} Expenses
+              </span>
             </div>
-            <p className="text-2xl font-bold text-red-900">{formatCurrency(currentMonthExpenses)}</p>
+            <p className="text-2xl font-bold text-red-900">{formatCurrency(selectedMonthExpenses)}</p>
+            <p className="text-xs text-red-700 mt-1">
+              {selectedMonthTransactions.filter(t => t.type === 'expense').length} transactions
+            </p>
           </div>
           
           <div className="bg-gradient-to-r from-blue-50 to-cyan-50 p-4 rounded-2xl border border-blue-200">
             <div className="flex items-center gap-2 mb-2">
               <DollarSign className="h-5 w-5 text-blue-600" />
-              <span className="text-sm font-semibold text-blue-800">This Month Net</span>
+              <span className="text-sm font-semibold text-blue-800">
+                {months[selectedMonth]} {selectedYear} Net
+              </span>
             </div>
-            <p className={`text-2xl font-bold ${currentMonthIncome - currentMonthExpenses >= 0 ? 'text-green-900' : 'text-red-900'}`}>
-              {formatCurrency(currentMonthIncome - currentMonthExpenses)}
+            <p className={`text-2xl font-bold ${selectedMonthIncome - selectedMonthExpenses >= 0 ? 'text-green-900' : 'text-red-900'}`}>
+              {formatCurrency(selectedMonthIncome - selectedMonthExpenses)}
+            </p>
+            <p className="text-xs text-blue-700 mt-1">
+              {selectedMonthTransactions.length} total transactions
             </p>
           </div>
         </div>
