@@ -95,8 +95,13 @@ const Index = () => {
         >
           <div className="flex justify-between items-start mb-6">
             <div className="text-left">
-              <h1 className="text-5xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-400 bg-clip-text text-transparent mb-3">
-                Trisha Mae Finance Tracker
+              <h1 className="text-5xl font-bold mb-3">
+                <span className="bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-400 bg-clip-text text-transparent">
+                  Trisha Mae
+                </span>
+                <span className="text-black dark:text-white ml-3">
+                  Finance Tracker
+                </span>
               </h1>
               <p className="text-xl text-gray-600 dark:text-gray-300 font-medium">
                 Your modern financial dashboard
