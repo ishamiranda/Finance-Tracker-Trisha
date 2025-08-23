@@ -1,10 +1,8 @@
 import ModernFinancialSummaryCard from "@/components/ModernFinancialSummaryCard";
-import ModernExpenseChart from "@/components/ModernExpenseChart";
-import ModernRecentTransactions from "@/components/ModernRecentTransactions";
-import ModernFinancialGoals from "@/components/ModernFinancialGoals";
 import ModernAddTransactionDialog from "@/components/ModernAddTransactionDialog";
 import ExportAndFilterSection from "@/components/ExportAndFilterSection";
 import CurrencySelector from "@/components/CurrencySelector";
+import FinancialTabs from "@/components/FinancialTabs";
 import Footer from "@/components/Footer";
 import { DollarSign, TrendingUp, CreditCard, PiggyBank } from "lucide-react";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
@@ -160,27 +158,12 @@ const Index = () => {
           />
         </div>
 
-        {/* Expense Chart Section */}
+        {/* Financial Tabs Section */}
         <div className="animate-scale-in" style={{ animationDelay: '500ms' }}>
-          <ModernExpenseChart 
+          <FinancialTabs
             transactions={financialData.transactions}
-            currency={selectedCurrency}
-          />
-        </div>
-
-        {/* Recent Transactions Section */}
-        <div className="animate-scale-in" style={{ animationDelay: '600ms' }}>
-          <ModernRecentTransactions 
-            transactions={financialData.transactions}
-            onDeleteTransaction={deleteTransaction}
-            currency={selectedCurrency}
-          />
-        </div>
-
-        {/* Goals Section */}
-        <div className="animate-fade-in-up" style={{ animationDelay: '700ms' }}>
-          <ModernFinancialGoals 
             goals={financialData.goals}
+            onDeleteTransaction={deleteTransaction}
             onAddGoal={addGoal}
             onUpdateGoal={updateGoal}
             onDeleteGoal={deleteGoal}
