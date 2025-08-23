@@ -33,17 +33,17 @@ const ModernFinancialSummaryCard = ({
   };
 
   return (
-    <Card className="bg-white/90 backdrop-blur-md border border-gray-200/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] rounded-3xl overflow-hidden group">
+    <Card className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-md border border-gray-200/50 dark:border-gray-700/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] rounded-3xl overflow-hidden group">
       <CardHeader className="flex flex-col md:flex-row items-center justify-between pb-3">
-        <CardTitle className="text-sm font-semibold text-gray-800 tracking-wide text-center md:text-left w-full">
+        <CardTitle className="text-sm font-semibold text-gray-800 dark:text-gray-200 tracking-wide text-center md:text-left w-full">
           {title}
         </CardTitle>
-        <div className="mt-2 md:mt-0 text-purple-600 group-hover:scale-110 transition-transform duration-200">
+        <div className="mt-2 md:mt-0 text-purple-600 dark:text-purple-400 group-hover:scale-110 transition-transform duration-200">
           {icon}
         </div>
       </CardHeader>
       <CardContent>
-        <div className="text-2xl md:text-3xl font-bold text-gray-900 mb-2 tracking-tight text-center md:text-left">
+        <div className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2 tracking-tight text-center md:text-left">
           {formatCurrency(amount)}
         </div>
         {change !== undefined && (
@@ -53,10 +53,10 @@ const ModernFinancialSummaryCard = ({
             ) : (
               <TrendingDown className="h-4 w-4 text-red-500 mr-1" />
             )}
-            <span className={`font-medium ${changeType === 'increase' ? 'text-green-600' : 'text-red-500'}`}>
+            <span className={`font-medium ${changeType === 'increase' ? 'text-green-600 dark:text-green-400' : 'text-red-500 dark:text-red-400'}`}>
               {Math.abs(change)}%
             </span>
-            <span className="text-gray-600 ml-1">from last month</span>
+            <span className="text-gray-600 dark:text-gray-400 ml-1">from last month</span>
           </div>
         )}
       </CardContent>
