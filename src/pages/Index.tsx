@@ -3,6 +3,7 @@ import ModernExpenseChart from "@/components/ModernExpenseChart";
 import ModernRecentTransactions from "@/components/ModernRecentTransactions";
 import ModernFinancialGoals from "@/components/ModernFinancialGoals";
 import ModernAddTransactionDialog from "@/components/ModernAddTransactionDialog";
+import ExportAndFilterSection from "@/components/ExportAndFilterSection";
 import CurrencySelector from "@/components/CurrencySelector";
 import { DollarSign, TrendingUp, CreditCard, PiggyBank } from "lucide-react";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
@@ -148,6 +149,14 @@ const Index = () => {
               currency={selectedCurrency}
             />
           </div>
+        </div>
+
+        {/* Export and Filter Section */}
+        <div className="animate-scale-in" style={{ animationDelay: '450ms' }}>
+          <ExportAndFilterSection 
+            transactions={financialData.transactions}
+            currency={selectedCurrency}
+          />
         </div>
 
         {/* Expense Chart Section */}
