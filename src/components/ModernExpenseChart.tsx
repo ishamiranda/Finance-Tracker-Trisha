@@ -1,3 +1,4 @@
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from "recharts";
 import { Transaction } from "@/types/finance";
 
@@ -40,14 +41,13 @@ const ModernExpenseChart = ({ transactions, currency }: ModernExpenseChartProps)
   };
 
   return (
-    <div className="bg-white/90 backdrop-blur-md border border-gray-200/50 shadow-lg rounded-3xl overflow-hidden p-6">
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold text-gray-900 text-center md:text-left flex items-center justify-center md:justify-start gap-2">
+    <Card className="col-span-2 bg-white/90 backdrop-blur-md border border-gray-200/50 shadow-lg rounded-3xl overflow-hidden">
+      <CardHeader className="px-4 pt-4">
+        <CardTitle className="text-xl font-bold text-gray-900 text-center md:text-left">
           📊 Expense Breakdown
-        </h2>
-      </div>
-      
-      <div>
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="p-4">
         {expenseData.length > 0 ? (
           <ResponsiveContainer width="100%" height={400}>
             <PieChart>
@@ -85,8 +85,8 @@ const ModernExpenseChart = ({ transactions, currency }: ModernExpenseChartProps)
             <p className="text-sm text-gray-600 text-center">Add some transactions to see your breakdown</p>
           </div>
         )}
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 };
 
