@@ -90,10 +90,10 @@ const Index = () => {
       <div className="max-w-7xl mx-auto space-y-8">
         {/* Modern Header */}
         <div 
-          className="text-center mb-12 p-8 bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border border-white/20 animate-slide-in-top"
+          className="mb-12 p-8 bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border border-white/20 animate-slide-in-top"
         >
           <div className="flex justify-between items-start mb-6">
-            <div className="flex-1">
+            <div className="text-left">
               <h1 className="text-5xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-3">
                 Personal Finance
               </h1>
@@ -106,7 +106,7 @@ const Index = () => {
               onCurrencyChange={setSelectedCurrency}
             />
           </div>
-          <div className="animate-fade-in-up" style={{ animationDelay: '200ms' }}>
+          <div className="text-left animate-fade-in-up" style={{ animationDelay: '200ms' }}>
             <ModernAddTransactionDialog 
               onAddTransaction={addTransaction} 
               currency={selectedCurrency}
