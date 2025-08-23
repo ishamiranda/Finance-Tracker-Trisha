@@ -1,0 +1,58 @@
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { TrendingUp, TrendingDown } from "lucide-react";
+
+interface ModernFinancialSummaryCardProps {
+  title: string;
+  amount: number;
+  change?: number;
+  changeType?: 'increase' | 'decrease';
+  icon?: React.ReactNode;
+  currency: string;
+}
+
+const ModernFinancialSummaryCard = ({ 
+  title, 
+  amount, 
+  change, 
+  changeType = 'increase',
+  icon,
+  currency
+}: ModernFinancialSummaryCardProps) => {
+  const formatCurrency = (value: number) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: currency
+    }).format(value);
+  };
+
+  return (
+    <Card className="bg-white/80 backdrop-blur-md border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] rounded-3xl overflow-hidden group">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
+        <CardTitle className="text-sm font-semibold text-gray-700 tracking-wide">{title}</CardTitle>
+        <div className="text-purple-600 group-hover:scale-110 transition-transform duration-200">
+          {icon}
+        </div>
+      </CardHeader>
+      <CardContent>
+        <div className="text-3xl font-bold text-gray-900 mb-2 tracking-tight">
+          {formatCurrency(amount)}
+        </div>
+        {change !== undefined && (
+          <div className="flex items-center text-sm">
+            {changeType === 'increase' ? (
+              <TrendingUp className="h-4 w-4 text-green-500 mr-1" />
+            ) : (
+              <TrendingDown className="h-4 w-4 text-red-500 mr-1" />
+            )}
+            <span className={`font-medium ${changeType === 'increase' ? 'text-green-600' : 'text-red-500'}`}>
+              {Math.abs(change)}%
+            </span>
+            <span className="text-gray-500 ml-1">from last month</span>
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+};
+
+export default ModernFinancialSummaryCard;

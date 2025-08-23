@@ -1,13 +1,13 @@
-import { MadeWithDyad } from "@/components/made-with-dyad";
-import PixelFinancialSummaryCard from "@/components/PixelFinancialSummaryCard";
-import PixelExpenseChart from "@/components/PixelExpenseChart";
-import PixelRecentTransactions from "@/components/PixelRecentTransactions";
-import PixelFinancialGoals from "@/components/PixelFinancialGoals";
-import PixelAddTransactionDialog from "@/components/PixelAddTransactionDialog";
+import ModernFinancialSummaryCard from "@/components/ModernFinancialSummaryCard";
+import ModernExpenseChart from "@/components/ModernExpenseChart";
+import ModernRecentTransactions from "@/components/ModernRecentTransactions";
+import ModernFinancialGoals from "@/components/ModernFinancialGoals";
+import ModernAddTransactionDialog from "@/components/ModernAddTransactionDialog";
+import CurrencySelector from "@/components/CurrencySelector";
 import { DollarSign, TrendingUp, CreditCard, PiggyBank } from "lucide-react";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { Transaction, Goal, FinancialData } from "@/types/finance";
-import { showSuccess, showError } from "@/utils/toast";
+import { showSuccess } from "@/utils/toast";
 
 const initialData: FinancialData = {
   transactions: [],
@@ -17,6 +17,7 @@ const initialData: FinancialData = {
 
 const Index = () => {
   const [financialData, setFinancialData] = useLocalStorage<FinancialData>('financial-data', initialData);
+  const [selectedCurrency, setSelectedCurrency] = useLocalStorage<string>('selected-currency', 'USD');
 
   const addTransaction = (transactionData: Omit<Transaction, 'id'>) => {
     const newTransaction: Transaction = {
@@ -85,89 +86,106 @@ const Index = () => {
   const totalSavings = financialData.goals.reduce((sum, goal) => sum + goal.currentAmount, 0);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-200 via-purple-100 to-blue-200 p-6 animate-fade-in-slow">
-      <div className="max-w-7xl mx-auto space-y-6">
-        {/* Pixel Art Header */}
-        <div className="text-center mb-8 p-6 bg-gradient-to-br from-yellow-200 to-pink-200 border-4 border-purple-300 pixel-border shadow-lg animate-float">
-          <h1 className="text-5xl font-bold text-purple-900 mb-2 pixel-font animate-wiggle">
-            🏠 Cozy Pixel Finance Dashboard
-          </h1>
-          <p className="text-lg text-purple-700 mb-4 pixel-font animate-fade-in-delayed">
-            Your adorable 2D pixel space to manage finances! ✨
-          </p>
-          <div className="animate-bounce-slow">
-            <PixelAddTransactionDialog onAddTransaction={addTransaction} />
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 p-6">
+      <div className="max-w-7xl mx-auto space-y-8">
+        {/* Modern Header */}
+        <div 
+          className="text-center mb-12 p-8 bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border border-white/20 animate-slide-in-top"
+        >
+          <div className="flex justify-between items-start mb-6">
+            <div className="flex-1">
+              <h1 className="text-5xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-3">
+                Personal Finance
+              </h1>
+              <p className="text-xl text-gray-600 font-medium">
+                Your modern financial dashboard
+              </p>
+            </div>
+            <CurrencySelector 
+              selectedCurrency={selectedCurrency}
+              onCurrencyChange={setSelectedCurrency}
+            />
+          </div>
+          <div className="animate-fade-in-up" style={{ animationDelay: '200ms' }}>
+            <ModernAddTransactionDialog 
+              onAddTransaction={addTransaction} 
+              currency={selectedCurrency}
+            />
           </div>
         </div>
 
-        {/* Floating Summary Cards */}
+        {/* Summary Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="animate-slide-in" style={{ animationDelay: '100ms' }}>
-            <PixelFinancialSummaryCard
+          <div className="animate-slide-in-left" style={{ animationDelay: '100ms' }}>
+            <ModernFinancialSummaryCard
               title="Total Balance"
               amount={totalBalance}
               change={8.2}
               changeType="increase"
-              icon={<DollarSign className="h-4 w-4" />}
+              icon={<DollarSign className="h-5 w-5" />}
+              currency={selectedCurrency}
             />
           </div>
-          <div className="animate-slide-in" style={{ animationDelay: '200ms' }}>
-            <PixelFinancialSummaryCard
+          <div className="animate-slide-in-left" style={{ animationDelay: '200ms' }}>
+            <ModernFinancialSummaryCard
               title="Monthly Income"
               amount={totalIncome}
               change={5.1}
               changeType="increase"
-              icon={<TrendingUp className="h-4 w-4" />}
+              icon={<TrendingUp className="h-5 w-5" />}
+              currency={selectedCurrency}
             />
           </div>
-          <div className="animate-slide-in" style={{ animationDelay: '300ms' }}>
-            <PixelFinancialSummaryCard
+          <div className="animate-slide-in-left" style={{ animationDelay: '300ms' }}>
+            <ModernFinancialSummaryCard
               title="Monthly Expenses"
               amount={totalExpenses}
               change={3.2}
               changeType="decrease"
-              icon={<CreditCard className="h-4 w-4" />}
+              icon={<CreditCard className="h-5 w-5" />}
+              currency={selectedCurrency}
             />
           </div>
-          <div className="animate-slide-in" style={{ animationDelay: '400ms' }}>
-            <PixelFinancialSummaryCard
+          <div className="animate-slide-in-left" style={{ animationDelay: '400ms' }}>
+            <ModernFinancialSummaryCard
               title="Total Savings"
               amount={totalSavings}
               change={12.5}
               changeType="increase"
-              icon={<PiggyBank className="h-4 w-4" />}
+              icon={<PiggyBank className="h-5 w-5" />}
+              currency={selectedCurrency}
             />
           </div>
         </div>
 
-        {/* Charts and Transactions with Staggered Animation */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          <div className="animate-slide-in-right" style={{ animationDelay: '500ms' }}>
-            <PixelExpenseChart transactions={financialData.transactions} />
+        {/* Charts and Transactions */}
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          <div className="animate-scale-in" style={{ animationDelay: '500ms' }}>
+            <ModernExpenseChart 
+              transactions={financialData.transactions}
+              currency={selectedCurrency}
+            />
           </div>
-          <div className="animate-slide-in" style={{ animationDelay: '600ms' }}>
-            <PixelRecentTransactions 
+          <div className="animate-scale-in" style={{ animationDelay: '600ms' }}>
+            <ModernRecentTransactions 
               transactions={financialData.transactions}
               onDeleteTransaction={deleteTransaction}
+              currency={selectedCurrency}
             />
           </div>
         </div>
 
-        {/* Goals Section with Floating Animation */}
-        <div className="grid grid-cols-1 gap-6">
-          <div className="animate-scale-in" style={{ animationDelay: '700ms' }}>
-            <PixelFinancialGoals 
+        {/* Goals Section */}
+        <div className="grid grid-cols-1 gap-8">
+          <div className="animate-fade-in-up" style={{ animationDelay: '700ms' }}>
+            <ModernFinancialGoals 
               goals={financialData.goals}
               onAddGoal={addGoal}
               onUpdateGoal={updateGoal}
               onDeleteGoal={deleteGoal}
+              currency={selectedCurrency}
             />
           </div>
-        </div>
-
-        {/* Floating Footer */}
-        <div className="text-center p-4 bg-gradient-to-br from-cyan-100 to-blue-100 border-2 border-cyan-200 pixel-border animate-float-slow">
-          <MadeWithDyad />
         </div>
       </div>
     </div>
