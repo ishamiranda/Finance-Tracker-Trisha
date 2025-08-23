@@ -50,15 +50,15 @@ const ModernFinancialGoals = ({ goals, onAddGoal, onUpdateGoal, onDeleteGoal, cu
 
   return (
     <Card className="col-span-2 bg-white/90 backdrop-blur-md border border-gray-200/50 shadow-lg rounded-3xl overflow-hidden">
-      <CardHeader>
-        <div className="flex justify-between items-center">
-          <CardTitle className="text-xl font-bold text-gray-900 flex items-center gap-2">
+      <CardHeader className="px-4 pt-4">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+          <CardTitle className="text-xl font-bold text-gray-900 text-center md:text-left">
             🎯 Financial Goals
           </CardTitle>
           <ModernAddGoalDialog onAddGoal={onAddGoal} currency={currency} />
         </div>
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-4">
         <div className="space-y-6">
           {goals.map((goal, index) => {
             const percentage = (goal.currentAmount / goal.targetAmount) * 100;
@@ -73,12 +73,12 @@ const ModernFinancialGoals = ({ goals, onAddGoal, onUpdateGoal, onDeleteGoal, cu
                   animation: 'slideInFromRight 0.4s ease-out forwards'
                 }}
               >
-                <div className="flex justify-between items-start">
-                  <div className="flex-1">
+                <div className="flex flex-col md:flex-row items-center justify-between">
+                  <div className="flex-1 text-center md:text-left">
                     <h3 className="font-bold text-gray-900 text-lg">{goal.title}</h3>
                     <p className="text-sm text-purple-700 font-medium">{goal.category}</p>
                   </div>
-                  <div className="text-right flex items-center gap-2">
+                  <div className="flex items-center gap-2 mt-4 md:mt-0">
                     {editingGoal === goal.id ? (
                       <div className="flex items-center gap-2">
                         <Input
@@ -97,8 +97,8 @@ const ModernFinancialGoals = ({ goals, onAddGoal, onUpdateGoal, onDeleteGoal, cu
                         </Button>
                       </div>
                     ) : (
-                      <>
-                        <div className="text-right">
+                      <div className="flex items-center gap-2">
+                        <div className="text-center">
                           <p className="font-bold text-gray-900 text-lg">{formatCurrency(goal.currentAmount)}</p>
                           <p className="text-sm text-gray-600">
                             of {formatCurrency(goal.targetAmount)}
@@ -120,17 +120,17 @@ const ModernFinancialGoals = ({ goals, onAddGoal, onUpdateGoal, onDeleteGoal, cu
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
-                      </>
+                      </div>
                     )}
                   </div>
                 </div>
                 
-                <div className="space-y-2">
+                <div className="space-y-2 text-center md:text-left">
                   <Progress 
                     value={percentage} 
                     className="h-3 bg-purple-100 rounded-full overflow-hidden"
                   />
-                  <div className="flex justify-between items-center text-sm">
+                  <div className="flex flex-col md:flex-row justify-between items-center text-sm">
                     <span className="text-purple-700 font-medium">
                       {percentage.toFixed(1)}% complete
                     </span>
@@ -140,7 +140,7 @@ const ModernFinancialGoals = ({ goals, onAddGoal, onUpdateGoal, onDeleteGoal, cu
                   </div>
                 </div>
                 
-                <div className="flex items-center gap-2 text-sm text-gray-700">
+                <div className="flex items-center justify-center md:justify-start gap-2 text-sm text-gray-700">
                   <Calendar className="h-4 w-4 text-purple-500" />
                   <span>Target: {formatDate(goal.deadline)}</span>
                 </div>

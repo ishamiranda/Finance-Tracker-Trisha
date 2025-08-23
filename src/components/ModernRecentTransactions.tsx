@@ -24,23 +24,23 @@ const ModernRecentTransactions = ({ transactions, onDeleteTransaction, currency 
 
   return (
     <Card className="col-span-2 bg-white/90 backdrop-blur-md border border-gray-200/50 shadow-lg rounded-3xl overflow-hidden">
-      <CardHeader>
-        <CardTitle className="text-xl font-bold text-gray-900 flex items-center gap-2">
+      <CardHeader className="px-4 pt-4">
+        <CardTitle className="text-xl font-bold text-gray-900 text-center md:text-left flex items-center justify-center md:justify-start gap-2">
           💳 Recent Transactions
         </CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-4">
         <div className="space-y-3">
           {recentTransactions.map((transaction, index) => (
             <div 
               key={transaction.id} 
-              className="flex items-center justify-between p-4 bg-gray-50/80 rounded-2xl hover:bg-gray-100/80 transition-all duration-200 group border border-gray-100"
+              className="flex flex-col md:flex-row items-center justify-between p-4 bg-gray-50/80 rounded-2xl hover:bg-gray-100/80 transition-all duration-200 group border border-gray-100"
               style={{ 
                 animationDelay: `${index * 50}ms`,
                 animation: 'slideInFromLeft 0.3s ease-out forwards'
               }}
             >
-              <div className="flex items-center space-x-4">
+              <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4">
                 <div className={`p-3 rounded-full ${
                   transaction.type === 'income' 
                     ? 'bg-green-100 text-green-600' 
@@ -52,12 +52,12 @@ const ModernRecentTransactions = ({ transactions, onDeleteTransaction, currency 
                     <ArrowDownRight className="h-5 w-5" />
                   )}
                 </div>
-                <div>
+                <div className="text-center md:text-left">
                   <p className="font-semibold text-gray-900">{transaction.description}</p>
                   <p className="text-sm text-gray-600">{transaction.date}</p>
                 </div>
               </div>
-              <div className="flex items-center space-x-3">
+              <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-3 mt-2 md:mt-0">
                 <Badge 
                   variant="secondary" 
                   className="bg-purple-100 text-purple-800 hover:bg-purple-200 rounded-full px-3 py-1 border border-purple-200"

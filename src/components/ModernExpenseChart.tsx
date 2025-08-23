@@ -35,12 +35,12 @@ const ModernExpenseChart = ({ transactions, currency }: ModernExpenseChartProps)
 
   return (
     <Card className="col-span-2 bg-white/90 backdrop-blur-md border border-gray-200/50 shadow-lg rounded-3xl overflow-hidden">
-      <CardHeader>
-        <CardTitle className="text-xl font-bold text-gray-900 flex items-center gap-2">
+      <CardHeader className="px-4 pt-4">
+        <CardTitle className="text-xl font-bold text-gray-900 text-center md:text-left flex items-center justify-center md:justify-start gap-2">
           📊 Expense Breakdown
         </CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-4">
         {expenseData.length > 0 ? (
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
@@ -72,12 +72,10 @@ const ModernExpenseChart = ({ transactions, currency }: ModernExpenseChartProps)
             </PieChart>
           </ResponsiveContainer>
         ) : (
-          <div className="h-[300px] flex items-center justify-center text-gray-600">
-            <div className="text-center">
-              <div className="text-4xl mb-2">📈</div>
-              <p className="text-lg font-medium text-gray-800">No expenses to display yet</p>
-              <p className="text-sm text-gray-600">Add some transactions to see your breakdown</p>
-            </div>
+          <div className="h-[300px] flex flex-col items-center justify-center text-gray-600">
+            <div className="text-4xl mb-2">📈</div>
+            <p className="text-lg font-medium text-gray-800 text-center">No expenses to display yet</p>
+            <p className="text-sm text-gray-600 text-center">Add some transactions to see your breakdown</p>
           </div>
         )}
       </CardContent>
