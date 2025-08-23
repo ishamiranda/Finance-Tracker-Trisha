@@ -92,7 +92,7 @@ const currencies = [
 
 const CurrencySelector = ({ selectedCurrency, onCurrencyChange }: CurrencySelectorProps) => {
   return (
-    <div className="flex items-center gap-2 bg-white/80 backdrop-blur-md rounded-2xl px-4 py-2 shadow-sm border border-white/20">
+    <div className="flex items-center gap-2 bg-white/90 backdrop-blur-md rounded-2xl px-4 py-2 shadow-lg border border-white/30 hover:shadow-xl transition-shadow duration-200">
       <Globe className="h-4 w-4 text-purple-600" />
       <Select value={selectedCurrency} onValueChange={onCurrencyChange}>
         <SelectTrigger className="border-0 bg-transparent shadow-none focus:ring-0 min-w-[120px]">

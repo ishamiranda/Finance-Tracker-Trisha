@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Download, Filter, Calendar, DollarSign, TrendingUp, TrendingDown, ChevronLeft, ChevronRight } from "lucide-react";
+import { Download, Filter, DollarSign, TrendingUp, TrendingDown, ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { Transaction } from "@/types/finance";
 import { showSuccess } from "@/utils/toast";
 
@@ -42,14 +43,8 @@ const ExportAndFilterSection = ({ transactions, currency }: ExportAndFilterSecti
     'July', 'August', 'September', 'October', 'November', 'December'
   ];
 
-  // Get available years from transactions
-  const availableYears = [...new Set(transactions.map(t => new Date(t.date).getFullYear()))]
-    .sort((a, b) => b - a);
-
-  // Add current year if no transactions exist yet
-  if (availableYears.length === 0) {
-    availableYears.push(currentDate.getFullYear());
-  }
+  // Generate years from 2025 to 2099
+  const availableYears = Array.from({ length: 75 }, (_, i) => 2025 + i);
 
   // Get selected month data
   const selectedMonthTransactions = transactions.filter(t => {
@@ -162,6 +157,15 @@ const ExportAndFilterSection = ({ transactions, currency }: ExportAndFilterSecti
   const filteredCount = getFilteredTransactions().length;
   const isCurrentMonth = selectedMonth === currentDate.getMonth() && selectedYear === currentDate.getFullYear();
 
+  // Get available years from transactions for filter
+  const transactionYears = [...new Set(transactions.map(t => new Date(t.date).getFullYear()))]
+    .sort((a, b) => b - a);
+
+  // Add current year if no transactions exist yet
+  if (transactionYears.length === 0) {
+    transactionYears.push(currentDate.getFullYear());
+  }
+
   return (
     <Card className="bg-white/90 backdrop-blur-md border border-gray-200/50 shadow-lg rounded-3xl overflow-hidden">
       <CardHeader className="px-4 pt-4">
@@ -171,13 +175,13 @@ const ExportAndFilterSection = ({ transactions, currency }: ExportAndFilterSecti
             <span className="text-2xl">✨</span>
           </CardTitle>
           
-          {/* Simple Month Navigation */}
-          <div className="flex items-center gap-3 bg-purple-50/80 rounded-2xl px-4 py-2">
+          {/* Enhanced Month Navigation with Dropdown */}
+          <div className="flex items-center gap-3 bg-purple-50/90 backdrop-blur-md rounded-2xl px-4 py-2 shadow-lg border border-purple-200/50 hover:shadow-xl transition-shadow duration-200">
             <Button
               onClick={goToPreviousMonth}
               variant="ghost"
               size="sm"
-              className="text-purple-600 hover:bg-purple-100 rounded-full p-2"
+              className="text-purple-600 hover:bg-purple-100 rounded-full p-2 hover:shadow-md transition-shadow duration-200"
             >
               <ChevronLeft className="h-4 w-4" />
             </Button>
@@ -193,28 +197,77 @@ const ExportAndFilterSection = ({ transactions, currency }: ExportAndFilterSecti
               onClick={goToNextMonth}
               variant="ghost"
               size="sm"
-              className="text-purple-600 hover:bg-purple-100 rounded-full p-2"
+              className="text-purple-600 hover:bg-purple-100 rounded-full p-2 hover:shadow-md transition-shadow duration-200"
             >
               <ChevronRight className="h-4 w-4" />
             </Button>
 
-            {!isCurrentMonth && (
-              <Button
-                onClick={goToCurrentMonth}
-                variant="ghost"
-                size="sm"
-                className="text-purple-600 hover:bg-purple-100 rounded-xl px-3 py-1 text-xs"
-              >
-                Today
-              </Button>
-            )}
+            {/* Three Dots Dropdown Menu */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-purple-600 hover:bg-purple-100 rounded-full p-2 hover:shadow-md transition-shadow duration-200"
+                >
+                  <MoreHorizontal className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="bg-white/95 backdrop-blur-md border-0 rounded-2xl shadow-xl p-2 min-w-[200px]">
+                <div className="px-2 py-1 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+                  📅 Select Month
+                </div>
+                {months.map((month, index) => (
+                  <DropdownMenuItem
+                    key={month}
+                    onClick={() => setSelectedMonth(index)}
+                    className={`rounded-xl cursor-pointer ${
+                      selectedMonth === index ? 'bg-purple-100 text-purple-900' : 'hover:bg-purple-50'
+                    }`}
+                  >
+                    {month}
+                  </DropdownMenuItem>
+                ))}
+                
+                <DropdownMenuSeparator className="my-2" />
+                
+                <div className="px-2 py-1 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+                  📆 Select Year
+                </div>
+                <div className="max-h-40 overflow-y-auto">
+                  {availableYears.map((year) => (
+                    <DropdownMenuItem
+                      key={year}
+                      onClick={() => setSelectedYear(year)}
+                      className={`rounded-xl cursor-pointer ${
+                        selectedYear === year ? 'bg-purple-100 text-purple-900' : 'hover:bg-purple-50'
+                      }`}
+                    >
+                      {year}
+                    </DropdownMenuItem>
+                  ))}
+                </div>
+
+                {!isCurrentMonth && (
+                  <>
+                    <DropdownMenuSeparator className="my-2" />
+                    <DropdownMenuItem
+                      onClick={goToCurrentMonth}
+                      className="rounded-xl cursor-pointer hover:bg-blue-50 text-blue-600 font-medium"
+                    >
+                      🏠 Go to Current Month
+                    </DropdownMenuItem>
+                  </>
+                )}
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </CardHeader>
       <CardContent className="p-4 space-y-6">
         {/* Selected Month Summary */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-gradient-to-r from-green-50 to-emerald-50 p-4 rounded-2xl border border-green-200">
+          <div className="bg-gradient-to-r from-green-50 to-emerald-50 p-4 rounded-2xl border border-green-200 shadow-sm hover:shadow-md transition-shadow duration-200">
             <div className="flex items-center gap-2 mb-2">
               <span className="text-2xl">💰</span>
               <TrendingUp className="h-5 w-5 text-green-600" />
@@ -226,7 +279,7 @@ const ExportAndFilterSection = ({ transactions, currency }: ExportAndFilterSecti
             </p>
           </div>
           
-          <div className="bg-gradient-to-r from-red-50 to-rose-50 p-4 rounded-2xl border border-red-200">
+          <div className="bg-gradient-to-r from-red-50 to-rose-50 p-4 rounded-2xl border border-red-200 shadow-sm hover:shadow-md transition-shadow duration-200">
             <div className="flex items-center gap-2 mb-2">
               <span className="text-2xl">💸</span>
               <TrendingDown className="h-5 w-5 text-red-600" />
@@ -238,7 +291,7 @@ const ExportAndFilterSection = ({ transactions, currency }: ExportAndFilterSecti
             </p>
           </div>
           
-          <div className="bg-gradient-to-r from-blue-50 to-cyan-50 p-4 rounded-2xl border border-blue-200">
+          <div className="bg-gradient-to-r from-blue-50 to-cyan-50 p-4 rounded-2xl border border-blue-200 shadow-sm hover:shadow-md transition-shadow duration-200">
             <div className="flex items-center gap-2 mb-2">
               <span className="text-2xl">💎</span>
               <DollarSign className="h-5 w-5 text-blue-600" />
@@ -254,7 +307,7 @@ const ExportAndFilterSection = ({ transactions, currency }: ExportAndFilterSecti
         </div>
 
         {/* Filters Section */}
-        <div className="bg-gray-50/80 p-4 rounded-2xl border border-gray-200">
+        <div className="bg-gray-50/80 p-4 rounded-2xl border border-gray-200 shadow-sm">
           <div className="flex items-center gap-2 mb-4">
             <span className="text-2xl">🔍</span>
             <Filter className="h-5 w-5 text-purple-600" />
@@ -269,7 +322,7 @@ const ExportAndFilterSection = ({ transactions, currency }: ExportAndFilterSecti
                 Transaction Type
               </Label>
               <Select value={filterType} onValueChange={(value: 'all' | 'income' | 'expense') => setFilterType(value)}>
-                <SelectTrigger className="border-gray-200 rounded-xl">
+                <SelectTrigger className="border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent className="bg-white/95 backdrop-blur-md border-0 rounded-2xl shadow-xl">
@@ -286,12 +339,12 @@ const ExportAndFilterSection = ({ transactions, currency }: ExportAndFilterSecti
                 Year
               </Label>
               <Select value={filterYear} onValueChange={setFilterYear}>
-                <SelectTrigger className="border-gray-200 rounded-xl">
+                <SelectTrigger className="border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent className="bg-white/95 backdrop-blur-md border-0 rounded-2xl shadow-xl">
                   <SelectItem value="all">All Years</SelectItem>
-                  {availableYears.map(year => (
+                  {transactionYears.map(year => (
                     <SelectItem key={year} value={year.toString()}>{year}</SelectItem>
                   ))}
                 </SelectContent>
@@ -307,7 +360,7 @@ const ExportAndFilterSection = ({ transactions, currency }: ExportAndFilterSecti
                 type="date"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
-                className="border-gray-200 rounded-xl"
+                className="border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200"
               />
             </div>
 
@@ -320,14 +373,14 @@ const ExportAndFilterSection = ({ transactions, currency }: ExportAndFilterSecti
                 type="date"
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
-                className="border-gray-200 rounded-xl"
+                className="border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200"
               />
             </div>
           </div>
         </div>
 
         {/* Export Section */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4 bg-purple-50/80 p-4 rounded-2xl border border-purple-200">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 bg-purple-50/80 p-4 rounded-2xl border border-purple-200 shadow-sm">
           <div className="text-center md:text-left">
             <p className="text-lg font-semibold text-purple-900 flex items-center gap-2">
               <span className="text-2xl">📋</span>
