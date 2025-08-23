@@ -49,7 +49,7 @@ const ModernFinancialGoals = ({ goals, onAddGoal, onUpdateGoal, onDeleteGoal, cu
   };
 
   return (
-    <Card className="col-span-2 bg-white/80 backdrop-blur-md border-0 shadow-lg rounded-3xl overflow-hidden">
+    <Card className="col-span-2 bg-white/90 backdrop-blur-md border border-gray-200/50 shadow-lg rounded-3xl overflow-hidden">
       <CardHeader>
         <div className="flex justify-between items-center">
           <CardTitle className="text-xl font-bold text-gray-900 flex items-center gap-2">
@@ -67,7 +67,7 @@ const ModernFinancialGoals = ({ goals, onAddGoal, onUpdateGoal, onDeleteGoal, cu
             return (
               <div 
                 key={goal.id} 
-                className="space-y-4 p-6 bg-gradient-to-r from-purple-50/50 to-pink-50/50 rounded-2xl border border-purple-100/50 group hover:shadow-md transition-all duration-300"
+                className="space-y-4 p-6 bg-gradient-to-r from-purple-50/80 to-pink-50/80 rounded-2xl border border-purple-200/50 group hover:shadow-md transition-all duration-300"
                 style={{ 
                   animationDelay: `${index * 100}ms`,
                   animation: 'slideInFromRight 0.4s ease-out forwards'
@@ -76,7 +76,7 @@ const ModernFinancialGoals = ({ goals, onAddGoal, onUpdateGoal, onDeleteGoal, cu
                 <div className="flex justify-between items-start">
                   <div className="flex-1">
                     <h3 className="font-bold text-gray-900 text-lg">{goal.title}</h3>
-                    <p className="text-sm text-purple-600 font-medium">{goal.category}</p>
+                    <p className="text-sm text-purple-700 font-medium">{goal.category}</p>
                   </div>
                   <div className="text-right flex items-center gap-2">
                     {editingGoal === goal.id ? (
@@ -86,7 +86,7 @@ const ModernFinancialGoals = ({ goals, onAddGoal, onUpdateGoal, onDeleteGoal, cu
                           step="0.01"
                           value={editAmount}
                           onChange={(e) => setEditAmount(e.target.value)}
-                          className="w-32 h-10 text-sm border-purple-200 rounded-xl focus:border-purple-400"
+                          className="w-32 h-10 text-sm border-purple-200 rounded-xl focus:border-purple-400 text-gray-900"
                         />
                         <Button
                           size="sm"
@@ -100,7 +100,7 @@ const ModernFinancialGoals = ({ goals, onAddGoal, onUpdateGoal, onDeleteGoal, cu
                       <>
                         <div className="text-right">
                           <p className="font-bold text-gray-900 text-lg">{formatCurrency(goal.currentAmount)}</p>
-                          <p className="text-sm text-gray-500">
+                          <p className="text-sm text-gray-600">
                             of {formatCurrency(goal.targetAmount)}
                           </p>
                         </div>
@@ -134,13 +134,13 @@ const ModernFinancialGoals = ({ goals, onAddGoal, onUpdateGoal, onDeleteGoal, cu
                     <span className="text-purple-700 font-medium">
                       {percentage.toFixed(1)}% complete
                     </span>
-                    <span className="text-gray-600">
+                    <span className="text-gray-700">
                       {formatCurrency(remaining)} remaining
                     </span>
                   </div>
                 </div>
                 
-                <div className="flex items-center gap-2 text-sm text-gray-600">
+                <div className="flex items-center gap-2 text-sm text-gray-700">
                   <Calendar className="h-4 w-4 text-purple-500" />
                   <span>Target: {formatDate(goal.deadline)}</span>
                 </div>
@@ -148,10 +148,10 @@ const ModernFinancialGoals = ({ goals, onAddGoal, onUpdateGoal, onDeleteGoal, cu
             );
           })}
           {goals.length === 0 && (
-            <div className="text-center py-12 text-gray-500">
+            <div className="text-center py-12 text-gray-600">
               <div className="text-6xl mb-4">🎯</div>
-              <p className="text-lg font-medium">No goals set yet</p>
-              <p className="text-sm">Create your first financial goal to get started!</p>
+              <p className="text-lg font-medium text-gray-800">No goals set yet</p>
+              <p className="text-sm text-gray-600">Create your first financial goal to get started!</p>
             </div>
           )}
         </div>

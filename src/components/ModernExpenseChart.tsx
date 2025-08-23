@@ -34,7 +34,7 @@ const ModernExpenseChart = ({ transactions, currency }: ModernExpenseChartProps)
   };
 
   return (
-    <Card className="col-span-2 bg-white/80 backdrop-blur-md border-0 shadow-lg rounded-3xl overflow-hidden">
+    <Card className="col-span-2 bg-white/90 backdrop-blur-md border border-gray-200/50 shadow-lg rounded-3xl overflow-hidden">
       <CardHeader>
         <CardTitle className="text-xl font-bold text-gray-900 flex items-center gap-2">
           📊 Expense Breakdown
@@ -62,20 +62,21 @@ const ModernExpenseChart = ({ transactions, currency }: ModernExpenseChartProps)
                 formatter={(value) => [formatCurrency(Number(value)), 'Amount']}
                 contentStyle={{ 
                   backgroundColor: 'rgba(255, 255, 255, 0.95)', 
-                  border: 'none',
+                  border: '1px solid rgba(0, 0, 0, 0.1)',
                   borderRadius: '16px',
-                  boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1)'
+                  boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1)',
+                  color: '#1f2937'
                 }}
               />
               <Legend />
             </PieChart>
           </ResponsiveContainer>
         ) : (
-          <div className="h-[300px] flex items-center justify-center text-gray-500">
+          <div className="h-[300px] flex items-center justify-center text-gray-600">
             <div className="text-center">
               <div className="text-4xl mb-2">📈</div>
-              <p>No expenses to display yet</p>
-              <p className="text-sm">Add some transactions to see your breakdown</p>
+              <p className="text-lg font-medium text-gray-800">No expenses to display yet</p>
+              <p className="text-sm text-gray-600">Add some transactions to see your breakdown</p>
             </div>
           </div>
         )}

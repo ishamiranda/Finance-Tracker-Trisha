@@ -23,7 +23,7 @@ const ModernRecentTransactions = ({ transactions, onDeleteTransaction, currency 
     .slice(0, 5);
 
   return (
-    <Card className="col-span-2 bg-white/80 backdrop-blur-md border-0 shadow-lg rounded-3xl overflow-hidden">
+    <Card className="col-span-2 bg-white/90 backdrop-blur-md border border-gray-200/50 shadow-lg rounded-3xl overflow-hidden">
       <CardHeader>
         <CardTitle className="text-xl font-bold text-gray-900 flex items-center gap-2">
           💳 Recent Transactions
@@ -34,7 +34,7 @@ const ModernRecentTransactions = ({ transactions, onDeleteTransaction, currency 
           {recentTransactions.map((transaction, index) => (
             <div 
               key={transaction.id} 
-              className="flex items-center justify-between p-4 bg-gray-50/50 rounded-2xl hover:bg-gray-50/80 transition-all duration-200 group"
+              className="flex items-center justify-between p-4 bg-gray-50/80 rounded-2xl hover:bg-gray-100/80 transition-all duration-200 group border border-gray-100"
               style={{ 
                 animationDelay: `${index * 50}ms`,
                 animation: 'slideInFromLeft 0.3s ease-out forwards'
@@ -54,13 +54,13 @@ const ModernRecentTransactions = ({ transactions, onDeleteTransaction, currency 
                 </div>
                 <div>
                   <p className="font-semibold text-gray-900">{transaction.description}</p>
-                  <p className="text-sm text-gray-500">{transaction.date}</p>
+                  <p className="text-sm text-gray-600">{transaction.date}</p>
                 </div>
               </div>
               <div className="flex items-center space-x-3">
                 <Badge 
                   variant="secondary" 
-                  className="bg-purple-100 text-purple-700 hover:bg-purple-200 rounded-full px-3 py-1"
+                  className="bg-purple-100 text-purple-800 hover:bg-purple-200 rounded-full px-3 py-1 border border-purple-200"
                 >
                   {transaction.category}
                 </Badge>
@@ -81,10 +81,10 @@ const ModernRecentTransactions = ({ transactions, onDeleteTransaction, currency 
             </div>
           ))}
           {recentTransactions.length === 0 && (
-            <div className="text-center py-12 text-gray-500">
+            <div className="text-center py-12 text-gray-600">
               <div className="text-6xl mb-4">💸</div>
-              <p className="text-lg font-medium">No transactions yet</p>
-              <p className="text-sm">Add your first transaction to get started!</p>
+              <p className="text-lg font-medium text-gray-800">No transactions yet</p>
+              <p className="text-sm text-gray-600">Add your first transaction to get started!</p>
             </div>
           )}
         </div>
