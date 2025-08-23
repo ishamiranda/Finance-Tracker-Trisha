@@ -120,8 +120,6 @@ const Index = () => {
             <ModernFinancialSummaryCard
               title="Total Balance"
               amount={totalBalance}
-              change={8.2}
-              changeType="increase"
               icon={<DollarSign className="h-5 w-5" />}
               currency={selectedCurrency}
             />
@@ -130,8 +128,6 @@ const Index = () => {
             <ModernFinancialSummaryCard
               title="Monthly Income"
               amount={totalIncome}
-              change={5.1}
-              changeType="increase"
               icon={<TrendingUp className="h-5 w-5" />}
               currency={selectedCurrency}
             />
@@ -140,8 +136,6 @@ const Index = () => {
             <ModernFinancialSummaryCard
               title="Monthly Expenses"
               amount={totalExpenses}
-              change={3.2}
-              changeType="decrease"
               icon={<CreditCard className="h-5 w-5" />}
               currency={selectedCurrency}
             />
@@ -150,8 +144,6 @@ const Index = () => {
             <ModernFinancialSummaryCard
               title="Total Savings"
               amount={totalSavings}
-              change={12.5}
-              changeType="increase"
               icon={<PiggyBank className="h-5 w-5" />}
               currency={selectedCurrency}
             />
