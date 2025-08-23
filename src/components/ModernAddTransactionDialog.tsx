@@ -26,13 +26,43 @@ const ModernAddTransactionDialog = ({ onAddTransaction, currency }: ModernAddTra
     date: new Date().toISOString().split('T')[0]
   });
 
+  // Format number with commas
+  const formatNumber = (value: string) => {
+    // Remove all non-digit characters except decimal point
+    const cleanValue = value.replace(/[^\d.]/g, '');
+    
+    // Split by decimal point
+    const parts = cleanValue.split('.');
+    
+    // Add commas to the integer part
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    
+    // Limit to 2 decimal places
+    if (parts[1]) {
+      parts[1] = parts[1].substring(0, 2);
+    }
+    
+    return parts.join('.');
+  };
+
+  // Parse formatted number back to float
+  const parseNumber = (value: string) => {
+    return parseFloat(value.replace(/,/g, '')) || 0;
+  };
+
+  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const formatted = formatNumber(value);
+    setFormData({ ...formData, amount: formatted });
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.description || !formData.amount || !formData.category) return;
 
     onAddTransaction({
       description: formData.description,
-      amount: parseFloat(formData.amount),
+      amount: parseNumber(formData.amount),
       type: formData.type,
       category: formData.category,
       date: formData.date
@@ -76,10 +106,9 @@ const ModernAddTransactionDialog = ({ onAddTransaction, currency }: ModernAddTra
             <Label htmlFor="amount" className="text-sm font-semibold text-gray-700">Amount ({currency})</Label>
             <Input
               id="amount"
-              type="number"
-              step="0.01"
+              type="text"
               value={formData.amount}
-              onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
+              onChange={handleAmountChange}
               className="border-gray-200 rounded-xl h-12 focus:border-blue-400 focus:ring-blue-400"
               placeholder="0.00"
             />

@@ -21,14 +21,50 @@ const ModernAddGoalDialog = ({ onAddGoal, currency }: ModernAddGoalDialogProps) 
     category: ''
   });
 
+  // Format number with commas
+  const formatNumber = (value: string) => {
+    // Remove all non-digit characters except decimal point
+    const cleanValue = value.replace(/[^\d.]/g, '');
+    
+    // Split by decimal point
+    const parts = cleanValue.split('.');
+    
+    // Add commas to the integer part
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    
+    // Limit to 2 decimal places
+    if (parts[1]) {
+      parts[1] = parts[1].substring(0, 2);
+    }
+    
+    return parts.join('.');
+  };
+
+  // Parse formatted number back to float
+  const parseNumber = (value: string) => {
+    return parseFloat(value.replace(/,/g, '')) || 0;
+  };
+
+  const handleTargetAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const formatted = formatNumber(value);
+    setFormData({ ...formData, targetAmount: formatted });
+  };
+
+  const handleCurrentAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const formatted = formatNumber(value);
+    setFormData({ ...formData, currentAmount: formatted });
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.title || !formData.targetAmount || !formData.deadline || !formData.category) return;
 
     onAddGoal({
       title: formData.title,
-      targetAmount: parseFloat(formData.targetAmount),
-      currentAmount: parseFloat(formData.currentAmount) || 0,
+      targetAmount: parseNumber(formData.targetAmount),
+      currentAmount: parseNumber(formData.currentAmount),
       deadline: formData.deadline,
       category: formData.category
     });
@@ -71,12 +107,11 @@ const ModernAddGoalDialog = ({ onAddGoal, currency }: ModernAddGoalDialogProps) 
             <Label htmlFor="targetAmount" className="text-sm font-semibold text-gray-700">Target Amount ({currency})</Label>
             <Input
               id="targetAmount"
-              type="number"
-              step="0.01"
+              type="text"
               value={formData.targetAmount}
-              onChange={(e) => setFormData({ ...formData, targetAmount: e.target.value })}
+              onChange={handleTargetAmountChange}
               className="border-gray-200 rounded-xl h-12 focus:border-purple-400 focus:ring-purple-400"
-              placeholder="10000.00"
+              placeholder="10,000.00"
             />
           </div>
 
@@ -84,10 +119,9 @@ const ModernAddGoalDialog = ({ onAddGoal, currency }: ModernAddGoalDialogProps) 
             <Label htmlFor="currentAmount" className="text-sm font-semibold text-gray-700">Current Amount ({currency})</Label>
             <Input
               id="currentAmount"
-              type="number"
-              step="0.01"
+              type="text"
               value={formData.currentAmount}
-              onChange={(e) => setFormData({ ...formData, currentAmount: e.target.value })}
+              onChange={handleCurrentAmountChange}
               className="border-gray-200 rounded-xl h-12 focus:border-purple-400 focus:ring-purple-400"
               placeholder="0.00"
             />

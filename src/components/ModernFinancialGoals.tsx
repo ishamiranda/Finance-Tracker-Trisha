@@ -41,13 +41,44 @@ const ModernFinancialGoals = ({ goals, onAddGoal, onUpdateGoal, onDeleteGoal, cu
     });
   };
 
+  // Format number with commas
+  const formatNumber = (value: string) => {
+    // Remove all non-digit characters except decimal point
+    const cleanValue = value.replace(/[^\d.]/g, '');
+    
+    // Split by decimal point
+    const parts = cleanValue.split('.');
+    
+    // Add commas to the integer part
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    
+    // Limit to 2 decimal places
+    if (parts[1]) {
+      parts[1] = parts[1].substring(0, 2);
+    }
+    
+    return parts.join('.');
+  };
+
+  // Parse formatted number back to float
+  const parseNumber = (value: string) => {
+    return parseFloat(value.replace(/,/g, '')) || 0;
+  };
+
   const handleEditClick = (goal: Goal) => {
     setEditingGoal(goal.id);
-    setEditAmount(goal.currentAmount.toString());
+    // Format the current amount with commas when editing starts
+    setEditAmount(formatNumber(goal.currentAmount.toString()));
+  };
+
+  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const formatted = formatNumber(value);
+    setEditAmount(formatted);
   };
 
   const handleSaveEdit = (goalId: string) => {
-    const amount = parseFloat(editAmount);
+    const amount = parseNumber(editAmount);
     if (!isNaN(amount)) {
       onUpdateGoal(goalId, amount);
     }
@@ -89,11 +120,11 @@ const ModernFinancialGoals = ({ goals, onAddGoal, onUpdateGoal, onDeleteGoal, cu
                     {editingGoal === goal.id ? (
                       <div className="flex items-center gap-2">
                         <Input
-                          type="number"
-                          step="0.01"
+                          type="text"
                           value={editAmount}
-                          onChange={(e) => setEditAmount(e.target.value)}
+                          onChange={handleAmountChange}
                           className="w-32 h-10 text-sm border-purple-200 rounded-xl focus:border-purple-400 text-gray-900"
+                          placeholder="0.00"
                         />
                         <Button
                           size="sm"
