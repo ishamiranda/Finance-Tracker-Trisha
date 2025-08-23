@@ -4,8 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
-import { Download, Filter, Calendar, DollarSign, TrendingUp, TrendingDown, ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react";
+import { Download, Filter, Calendar, DollarSign, TrendingUp, TrendingDown, ChevronLeft, ChevronRight } from "lucide-react";
 import { Transaction } from "@/types/finance";
 import { showSuccess } from "@/utils/toast";
 
@@ -167,12 +166,13 @@ const ExportAndFilterSection = ({ transactions, currency }: ExportAndFilterSecti
     <Card className="bg-white/90 backdrop-blur-md border border-gray-200/50 shadow-lg rounded-3xl overflow-hidden">
       <CardHeader className="px-4 pt-4">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-xl font-bold text-gray-900">
+          <CardTitle className="text-xl font-bold text-gray-900 flex items-center gap-2">
             📈 Financial Overview & Export
+            <span className="text-2xl">✨</span>
           </CardTitle>
           
-          {/* Compact Month Navigation */}
-          <div className="flex items-center gap-2">
+          {/* Simple Month Navigation */}
+          <div className="flex items-center gap-3 bg-purple-50/80 rounded-2xl px-4 py-2">
             <Button
               onClick={goToPreviousMonth}
               variant="ghost"
@@ -182,9 +182,12 @@ const ExportAndFilterSection = ({ transactions, currency }: ExportAndFilterSecti
               <ChevronLeft className="h-4 w-4" />
             </Button>
             
-            <span className="text-sm font-medium text-gray-700 min-w-[120px] text-center">
-              {months[selectedMonth]} {selectedYear}
-            </span>
+            <div className="flex items-center gap-2">
+              <span className="text-lg">🗓️</span>
+              <span className="text-sm font-medium text-gray-700 min-w-[120px] text-center">
+                {months[selectedMonth]} {selectedYear}
+              </span>
+            </div>
             
             <Button
               onClick={goToNextMonth}
@@ -195,60 +198,16 @@ const ExportAndFilterSection = ({ transactions, currency }: ExportAndFilterSecti
               <ChevronRight className="h-4 w-4" />
             </Button>
 
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="text-purple-600 hover:bg-purple-100 rounded-full p-2">
-                  <MoreHorizontal className="h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-white/95 backdrop-blur-md border-0 rounded-2xl shadow-xl p-4 min-w-[200px]">
-                <div className="space-y-3">
-                  <div>
-                    <Label className="text-xs font-medium text-gray-600">Month</Label>
-                    <Select 
-                      value={selectedMonth.toString()} 
-                      onValueChange={(value) => setSelectedMonth(parseInt(value))}
-                    >
-                      <SelectTrigger className="border-purple-200 rounded-xl h-8 text-sm">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {months.map((month, index) => (
-                          <SelectItem key={index} value={index.toString()}>{month}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  
-                  <div>
-                    <Label className="text-xs font-medium text-gray-600">Year</Label>
-                    <Select 
-                      value={selectedYear.toString()} 
-                      onValueChange={(value) => setSelectedYear(parseInt(value))}
-                    >
-                      <SelectTrigger className="border-purple-200 rounded-xl h-8 text-sm">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {availableYears.map(year => (
-                          <SelectItem key={year} value={year.toString()}>{year}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  
-                  {!isCurrentMonth && (
-                    <>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem onClick={goToCurrentMonth} className="text-sm">
-                        <Calendar className="h-4 w-4 mr-2" />
-                        Go to Current Month
-                      </DropdownMenuItem>
-                    </>
-                  )}
-                </div>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            {!isCurrentMonth && (
+              <Button
+                onClick={goToCurrentMonth}
+                variant="ghost"
+                size="sm"
+                className="text-purple-600 hover:bg-purple-100 rounded-xl px-3 py-1 text-xs"
+              >
+                Today
+              </Button>
+            )}
           </div>
         </div>
       </CardHeader>
@@ -257,6 +216,7 @@ const ExportAndFilterSection = ({ transactions, currency }: ExportAndFilterSecti
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-gradient-to-r from-green-50 to-emerald-50 p-4 rounded-2xl border border-green-200">
             <div className="flex items-center gap-2 mb-2">
+              <span className="text-2xl">💰</span>
               <TrendingUp className="h-5 w-5 text-green-600" />
               <span className="text-sm font-semibold text-green-800">Income</span>
             </div>
@@ -268,6 +228,7 @@ const ExportAndFilterSection = ({ transactions, currency }: ExportAndFilterSecti
           
           <div className="bg-gradient-to-r from-red-50 to-rose-50 p-4 rounded-2xl border border-red-200">
             <div className="flex items-center gap-2 mb-2">
+              <span className="text-2xl">💸</span>
               <TrendingDown className="h-5 w-5 text-red-600" />
               <span className="text-sm font-semibold text-red-800">Expenses</span>
             </div>
@@ -279,6 +240,7 @@ const ExportAndFilterSection = ({ transactions, currency }: ExportAndFilterSecti
           
           <div className="bg-gradient-to-r from-blue-50 to-cyan-50 p-4 rounded-2xl border border-blue-200">
             <div className="flex items-center gap-2 mb-2">
+              <span className="text-2xl">💎</span>
               <DollarSign className="h-5 w-5 text-blue-600" />
               <span className="text-sm font-semibold text-blue-800">Net Balance</span>
             </div>
@@ -294,13 +256,18 @@ const ExportAndFilterSection = ({ transactions, currency }: ExportAndFilterSecti
         {/* Filters Section */}
         <div className="bg-gray-50/80 p-4 rounded-2xl border border-gray-200">
           <div className="flex items-center gap-2 mb-4">
+            <span className="text-2xl">🔍</span>
             <Filter className="h-5 w-5 text-purple-600" />
             <h3 className="text-lg font-semibold text-gray-900">Export Filters</h3>
+            <span className="text-xl">🎯</span>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="space-y-2">
-              <Label className="text-sm font-medium text-gray-700">Transaction Type</Label>
+              <Label className="text-sm font-medium text-gray-700 flex items-center gap-1">
+                <span className="text-lg">📊</span>
+                Transaction Type
+              </Label>
               <Select value={filterType} onValueChange={(value: 'all' | 'income' | 'expense') => setFilterType(value)}>
                 <SelectTrigger className="border-gray-200 rounded-xl">
                   <SelectValue />
@@ -314,7 +281,10 @@ const ExportAndFilterSection = ({ transactions, currency }: ExportAndFilterSecti
             </div>
 
             <div className="space-y-2">
-              <Label className="text-sm font-medium text-gray-700">Year</Label>
+              <Label className="text-sm font-medium text-gray-700 flex items-center gap-1">
+                <span className="text-lg">📅</span>
+                Year
+              </Label>
               <Select value={filterYear} onValueChange={setFilterYear}>
                 <SelectTrigger className="border-gray-200 rounded-xl">
                   <SelectValue />
@@ -329,7 +299,10 @@ const ExportAndFilterSection = ({ transactions, currency }: ExportAndFilterSecti
             </div>
 
             <div className="space-y-2">
-              <Label className="text-sm font-medium text-gray-700">Start Date</Label>
+              <Label className="text-sm font-medium text-gray-700 flex items-center gap-1">
+                <span className="text-lg">🌅</span>
+                Start Date
+              </Label>
               <Input
                 type="date"
                 value={startDate}
@@ -339,7 +312,10 @@ const ExportAndFilterSection = ({ transactions, currency }: ExportAndFilterSecti
             </div>
 
             <div className="space-y-2">
-              <Label className="text-sm font-medium text-gray-700">End Date</Label>
+              <Label className="text-sm font-medium text-gray-700 flex items-center gap-1">
+                <span className="text-lg">🌇</span>
+                End Date
+              </Label>
               <Input
                 type="date"
                 value={endDate}
@@ -353,10 +329,13 @@ const ExportAndFilterSection = ({ transactions, currency }: ExportAndFilterSecti
         {/* Export Section */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 bg-purple-50/80 p-4 rounded-2xl border border-purple-200">
           <div className="text-center md:text-left">
-            <p className="text-lg font-semibold text-purple-900">
+            <p className="text-lg font-semibold text-purple-900 flex items-center gap-2">
+              <span className="text-2xl">📋</span>
               {filteredCount} transactions match your filters
+              <span className="text-xl">✨</span>
             </p>
-            <p className="text-sm text-purple-700">
+            <p className="text-sm text-purple-700 flex items-center gap-1">
+              <span className="text-lg">📁</span>
               Export your financial data to CSV format for analysis
             </p>
           </div>
@@ -364,10 +343,12 @@ const ExportAndFilterSection = ({ transactions, currency }: ExportAndFilterSecti
           <Button
             onClick={exportToCSV}
             disabled={filteredCount === 0}
-            className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-2xl px-8 py-3 shadow-lg hover:shadow-xl transition-all duration-200 text-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+            className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-2xl px-8 py-3 shadow-lg hover:shadow-xl transition-all duration-200 text-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
           >
-            <Download className="h-5 w-5 mr-2" />
+            <span className="text-xl">🚀</span>
+            <Download className="h-5 w-5" />
             Export to CSV
+            <span className="text-xl">📊</span>
           </Button>
         </div>
       </CardContent>
