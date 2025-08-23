@@ -93,17 +93,17 @@ const Index = () => {
         <div 
           className="mb-12 p-8 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-3xl shadow-xl border border-white/20 dark:border-gray-700/20 animate-slide-in-top transition-colors duration-300"
         >
-          <div className="flex justify-between items-start mb-6">
+          <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4 mb-6">
             <div className="text-left">
-              <h1 className="text-5xl font-bold mb-3">
-                <span className="bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-400 bg-clip-text text-transparent">
+              <h1 className="text-3xl md:text-5xl font-bold mb-3">
+                <span className="block sm:inline bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-400 bg-clip-text text-transparent">
                   Trisha Mae
                 </span>
-                <span className="text-black dark:text-white ml-3">
+                <span className="block sm:inline text-black dark:text-white sm:ml-3">
                   Finance Tracker
                 </span>
               </h1>
-              <p className="text-xl text-gray-600 dark:text-gray-300 font-medium">
+              <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 font-medium">
                 Your modern financial dashboard
               </p>
             </div>

@@ -95,7 +95,7 @@ const CurrencySelector = ({ selectedCurrency, onCurrencyChange }: CurrencySelect
     <div className="flex items-center gap-2 bg-white/90 backdrop-blur-md rounded-2xl px-4 py-2 shadow-lg border border-white/30 hover:shadow-xl transition-shadow duration-200">
       <Globe className="h-4 w-4 text-purple-600" />
       <Select value={selectedCurrency} onValueChange={onCurrencyChange}>
-        <SelectTrigger className="border-0 bg-transparent shadow-none focus:ring-0 min-w-[120px]">
+        <SelectTrigger className="border-0 bg-transparent shadow-none focus:ring-0 min-w-[120px] text-gray-900">
           <SelectValue />
         </SelectTrigger>
         <SelectContent className="bg-white/95 backdrop-blur-md border-white/20 rounded-2xl shadow-xl max-h-60">
