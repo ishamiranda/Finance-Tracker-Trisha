@@ -4,8 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Download, Filter, DollarSign, TrendingUp, TrendingDown, ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { Download, Filter, DollarSign, TrendingUp, TrendingDown, ChevronLeft, ChevronRight } from "lucide-react";
 import { Transaction } from "@/types/finance";
 import { showSuccess } from "@/utils/toast";
 
@@ -38,18 +37,10 @@ const ExportAndFilterSection = ({ transactions, currency }: ExportAndFilterSecti
     }
   };
 
-  const months = [
-    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-  ];
-
   const fullMonths = [
     'January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'
   ];
-
-  // Generate years from 2025 to 2099
-  const availableYears = Array.from({ length: 75 }, (_, i) => 2025 + i);
 
   // Get selected month data
   const selectedMonthTransactions = transactions.filter(t => {
@@ -82,11 +73,6 @@ const ExportAndFilterSection = ({ transactions, currency }: ExportAndFilterSecti
     } else {
       setSelectedMonth(selectedMonth + 1);
     }
-  };
-
-  const goToCurrentMonth = () => {
-    setSelectedMonth(currentDate.getMonth());
-    setSelectedYear(currentDate.getFullYear());
   };
 
   // Filter transactions based on current filters (for export)
@@ -160,7 +146,6 @@ const ExportAndFilterSection = ({ transactions, currency }: ExportAndFilterSecti
   };
 
   const filteredCount = getFilteredTransactions().length;
-  const isCurrentMonth = selectedMonth === currentDate.getMonth() && selectedYear === currentDate.getFullYear();
 
   // Get available years from transactions for filter
   const transactionYears = [...new Set(transactions.map(t => new Date(t.date).getFullYear()))]
@@ -180,7 +165,7 @@ const ExportAndFilterSection = ({ transactions, currency }: ExportAndFilterSecti
             <span className="text-2xl">✨</span>
           </CardTitle>
           
-          {/* Enhanced Month Navigation with Compact Dropdown */}
+          {/* Simplified Month Navigation */}
           <div className="flex items-center gap-3 bg-purple-50/90 dark:bg-purple-900/30 backdrop-blur-md rounded-2xl px-4 py-2 shadow-lg border border-purple-200/50 dark:border-purple-700/50 hover:shadow-xl transition-shadow duration-200">
             <Button
               onClick={goToPreviousMonth}
@@ -206,76 +191,6 @@ const ExportAndFilterSection = ({ transactions, currency }: ExportAndFilterSecti
             >
               <ChevronRight className="h-4 w-4" />
             </Button>
-
-            {/* Compact Three Dots Dropdown Menu */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="text-purple-600 dark:text-purple-400 hover:bg-purple-100 dark:hover:bg-purple-800/50 rounded-full p-2 hover:shadow-md transition-shadow duration-200"
-                >
-                  <MoreHorizontal className="h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-md border-0 rounded-2xl shadow-xl p-1 w-48">
-                {/* Months in a compact grid */}
-                <div className="px-2 py-1">
-                  <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2">📅 Month</div>
-                  <div className="grid grid-cols-3 gap-1">
-                    {months.map((month, index) => (
-                      <DropdownMenuItem
-                        key={month}
-                        onClick={() => setSelectedMonth(index)}
-                        className={`rounded-lg cursor-pointer text-xs py-1 px-2 text-center ${
-                          selectedMonth === index 
-                            ? 'bg-purple-100 dark:bg-purple-800 text-purple-900 dark:text-purple-100 font-medium' 
-                            : 'hover:bg-purple-50 dark:hover:bg-purple-900/50 text-gray-700 dark:text-gray-300'
-                        }`}
-                      >
-                        {month}
-                      </DropdownMenuItem>
-                    ))}
-                  </div>
-                </div>
-                
-                <DropdownMenuSeparator className="my-1 bg-gray-200 dark:bg-gray-600" />
-                
-                {/* Years in a compact scrollable list */}
-                <div className="px-2 py-1">
-                  <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2">📆 Year</div>
-                  <div className="max-h-32 overflow-y-auto">
-                    <div className="grid grid-cols-2 gap-1">
-                      {availableYears.slice(0, 20).map((year) => (
-                        <DropdownMenuItem
-                          key={year}
-                          onClick={() => setSelectedYear(year)}
-                          className={`rounded-lg cursor-pointer text-xs py-1 px-2 text-center ${
-                            selectedYear === year 
-                              ? 'bg-purple-100 dark:bg-purple-800 text-purple-900 dark:text-purple-100 font-medium' 
-                              : 'hover:bg-purple-50 dark:hover:bg-purple-900/50 text-gray-700 dark:text-gray-300'
-                          }`}
-                        >
-                          {year}
-                        </DropdownMenuItem>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                {!isCurrentMonth && (
-                  <>
-                    <DropdownMenuSeparator className="my-1 bg-gray-200 dark:bg-gray-600" />
-                    <DropdownMenuItem
-                      onClick={goToCurrentMonth}
-                      className="rounded-lg cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-900/50 text-blue-600 dark:text-blue-400 font-medium text-xs py-2 mx-1"
-                    >
-                      🏠 Current Month
-                    </DropdownMenuItem>
-                  </>
-                )}
-              </DropdownMenuContent>
-            </DropdownMenu>
           </div>
         </div>
       </CardHeader>
