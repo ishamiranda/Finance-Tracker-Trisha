@@ -1,4 +1,3 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from "recharts";
 import { Transaction } from "@/types/finance";
 
@@ -41,22 +40,23 @@ const ModernExpenseChart = ({ transactions, currency }: ModernExpenseChartProps)
   };
 
   return (
-    <Card className="col-span-2 bg-white/90 backdrop-blur-md border border-gray-200/50 shadow-lg rounded-3xl overflow-hidden">
-      <CardHeader className="px-4 pt-4">
-        <CardTitle className="text-xl font-bold text-gray-900 text-center md:text-left flex items-center justify-center md:justify-start gap-2">
+    <div className="bg-white/90 backdrop-blur-md border border-gray-200/50 shadow-lg rounded-3xl overflow-hidden p-6">
+      <div className="mb-6">
+        <h2 className="text-2xl font-bold text-gray-900 text-center md:text-left flex items-center justify-center md:justify-start gap-2">
           📊 Expense Breakdown
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="p-4">
+        </h2>
+      </div>
+      
+      <div>
         {expenseData.length > 0 ? (
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer width="100%" height={400}>
             <PieChart>
               <Pie
                 data={expenseData}
                 cx="50%"
                 cy="50%"
                 labelLine={false}
-                outerRadius={80}
+                outerRadius={120}
                 fill="#8884d8"
                 dataKey="value"
                 label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
@@ -79,14 +79,14 @@ const ModernExpenseChart = ({ transactions, currency }: ModernExpenseChartProps)
             </PieChart>
           </ResponsiveContainer>
         ) : (
-          <div className="h-[300px] flex flex-col items-center justify-center text-gray-600">
+          <div className="h-[400px] flex flex-col items-center justify-center text-gray-600">
             <div className="text-4xl mb-2">📈</div>
             <p className="text-lg font-medium text-gray-800 text-center">No expenses to display yet</p>
             <p className="text-sm text-gray-600 text-center">Add some transactions to see your breakdown</p>
           </div>
         )}
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 };
 

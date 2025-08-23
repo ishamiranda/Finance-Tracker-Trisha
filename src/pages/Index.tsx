@@ -150,34 +150,32 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Charts and Transactions */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          <div className="animate-scale-in" style={{ animationDelay: '500ms' }}>
-            <ModernExpenseChart 
-              transactions={financialData.transactions}
-              currency={selectedCurrency}
-            />
-          </div>
-          <div className="animate-scale-in" style={{ animationDelay: '600ms' }}>
-            <ModernRecentTransactions 
-              transactions={financialData.transactions}
-              onDeleteTransaction={deleteTransaction}
-              currency={selectedCurrency}
-            />
-          </div>
+        {/* Expense Chart Section */}
+        <div className="animate-scale-in" style={{ animationDelay: '500ms' }}>
+          <ModernExpenseChart 
+            transactions={financialData.transactions}
+            currency={selectedCurrency}
+          />
+        </div>
+
+        {/* Recent Transactions Section */}
+        <div className="animate-scale-in" style={{ animationDelay: '600ms' }}>
+          <ModernRecentTransactions 
+            transactions={financialData.transactions}
+            onDeleteTransaction={deleteTransaction}
+            currency={selectedCurrency}
+          />
         </div>
 
         {/* Goals Section */}
-        <div className="grid grid-cols-1 gap-8">
-          <div className="animate-fade-in-up" style={{ animationDelay: '700ms' }}>
-            <ModernFinancialGoals 
-              goals={financialData.goals}
-              onAddGoal={addGoal}
-              onUpdateGoal={updateGoal}
-              onDeleteGoal={deleteGoal}
-              currency={selectedCurrency}
-            />
-          </div>
+        <div className="animate-fade-in-up" style={{ animationDelay: '700ms' }}>
+          <ModernFinancialGoals 
+            goals={financialData.goals}
+            onAddGoal={addGoal}
+            onUpdateGoal={updateGoal}
+            onDeleteGoal={deleteGoal}
+            currency={selectedCurrency}
+          />
         </div>
       </div>
     </div>
