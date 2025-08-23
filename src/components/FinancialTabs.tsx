@@ -28,13 +28,13 @@ const FinancialTabs = ({
   const [activeTab, setActiveTab] = useState("expenses");
 
   return (
-    <div className="bg-white/90 backdrop-blur-md border border-gray-200/50 shadow-lg rounded-3xl overflow-hidden">
+    <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-md border border-gray-200/50 dark:border-gray-700/50 shadow-lg rounded-3xl overflow-hidden">
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <div className="px-6 pt-6 pb-2">
-          <TabsList className="grid w-full grid-cols-3 bg-gray-100/80 rounded-2xl p-1 h-12">
+          <TabsList className="grid w-full grid-cols-3 bg-gray-100/80 dark:bg-gray-700/80 rounded-2xl p-1 h-14 shadow-inner">
             <TabsTrigger 
               value="expenses" 
-              className="rounded-xl font-semibold text-sm data-[state=active]:bg-white data-[state=active]:shadow-sm transition-all duration-200 flex items-center gap-2"
+              className="rounded-xl font-semibold text-sm transition-all duration-300 flex items-center gap-2 data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-pink-500 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-purple-500/25 data-[state=active]:scale-[1.02] hover:bg-white/50 dark:hover:bg-gray-600/50 text-gray-700 dark:text-gray-300 data-[state=active]:border-0"
             >
               <PieChart className="h-4 w-4" />
               <span className="hidden sm:inline">Expense Breakdown</span>
@@ -42,7 +42,7 @@ const FinancialTabs = ({
             </TabsTrigger>
             <TabsTrigger 
               value="transactions" 
-              className="rounded-xl font-semibold text-sm data-[state=active]:bg-white data-[state=active]:shadow-sm transition-all duration-200 flex items-center gap-2"
+              className="rounded-xl font-semibold text-sm transition-all duration-300 flex items-center gap-2 data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-pink-500 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-purple-500/25 data-[state=active]:scale-[1.02] hover:bg-white/50 dark:hover:bg-gray-600/50 text-gray-700 dark:text-gray-300 data-[state=active]:border-0"
             >
               <CreditCard className="h-4 w-4" />
               <span className="hidden sm:inline">Recent Transactions</span>
@@ -50,7 +50,7 @@ const FinancialTabs = ({
             </TabsTrigger>
             <TabsTrigger 
               value="goals" 
-              className="rounded-xl font-semibold text-sm data-[state=active]:bg-white data-[state=active]:shadow-sm transition-all duration-200 flex items-center gap-2"
+              className="rounded-xl font-semibold text-sm transition-all duration-300 flex items-center gap-2 data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-pink-500 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-purple-500/25 data-[state=active]:scale-[1.02] hover:bg-white/50 dark:hover:bg-gray-600/50 text-gray-700 dark:text-gray-300 data-[state=active]:border-0"
             >
               <Target className="h-4 w-4" />
               <span className="hidden sm:inline">Financial Goals</span>
