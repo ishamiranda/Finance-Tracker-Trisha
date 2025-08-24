@@ -64,12 +64,17 @@ const ComplimentGift = () => {
         <Gift className="h-5 w-5" />
       </Button>
 
-      {/* Custom Popup Overlay */}
+      {/* Custom Popup Overlay - Perfectly Centered */}
       {isOpen && (
-        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-50 flex items-center justify-center p-4" style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}>
           <div
             id="compliment-popup"
-            className="bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 dark:from-pink-900/95 dark:via-purple-900/95 dark:to-blue-900/95 backdrop-blur-md shadow-2xl rounded-3xl w-full max-w-sm mx-auto overflow-hidden relative animate-scale-in"
+            className="bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 dark:from-pink-900/95 dark:via-purple-900/95 dark:to-blue-900/95 backdrop-blur-md shadow-2xl rounded-3xl w-full max-w-sm mx-auto my-auto overflow-hidden relative animate-scale-in"
+            style={{ 
+              position: 'relative',
+              transform: 'translate(0, 0)',
+              margin: 'auto'
+            }}
           >
             {/* Close Button */}
             <button
