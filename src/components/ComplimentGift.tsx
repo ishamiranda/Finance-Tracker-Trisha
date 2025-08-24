@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Gift, Heart, Sparkles, X } from "lucide-react";
+import { createPortal } from "react-dom"; // Import createPortal
 
 const compliments = [
   "You are looking gorgeous today!",
@@ -65,7 +66,7 @@ const ComplimentGift = () => {
       </Button>
 
       {/* Custom Popup Overlay - Middle Centered */}
-      {isOpen && (
+      {isOpen && createPortal( // Use createPortal here
         <div 
           className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9999]"
         >
@@ -150,7 +151,8 @@ const ComplimentGift = () => {
               <div className="absolute w-3 h-3 bg-pink-300 rounded-full animate-ping opacity-80" style={{ top: '70%', left: '5%', animationDelay: '4s' }}></div>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body // Render into document.body
       )}
     </>
   );
