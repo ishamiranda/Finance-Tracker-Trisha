@@ -5,6 +5,7 @@ import CurrencySelector from "@/components/CurrencySelector";
 import ThemeToggle from "@/components/ThemeToggle";
 import FinancialTabs from "@/components/FinancialTabs";
 import Footer from "@/components/Footer";
+import ComplimentGift from "@/components/ComplimentGift";
 import { DollarSign, TrendingUp, CreditCard, PiggyBank } from "lucide-react";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { Transaction, Goal, FinancialData } from "@/types/finance";
@@ -91,13 +92,14 @@ const Index = () => {
       <div className="max-w-7xl mx-auto space-y-8">
         {/* Modern Header */}
         <div 
-          className="mb-12 p-8 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-3xl shadow-xl border border-white/20 dark:border-gray-700/20 animate-slide-in-top transition-colors duration-300"
+          className="relative mb-12 p-8 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-3xl shadow-xl border border-white/20 dark:border-gray-700/20 animate-slide-in-top transition-colors duration-300"
         >
+          <ComplimentGift />
           <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4 mb-6">
             <div className="text-left">
               <h1 className="text-3xl md:text-5xl font-bold mb-3">
                 <span className="block sm:inline bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-400 bg-clip-text text-transparent">
-                  Trisha Mae
+                  Trisha's
                 </span>
                 <span className="block sm:inline text-black dark:text-white sm:ml-3">
                   Finance Tracker
