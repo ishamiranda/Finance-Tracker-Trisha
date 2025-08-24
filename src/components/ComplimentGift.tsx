@@ -66,13 +66,13 @@ const ComplimentGift = () => {
       </Button>
 
       {/* Custom Popup Overlay - Middle Centered */}
-      {isOpen && createPortal( // Use createPortal here
+      {isOpen && createPortal(
         <div 
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9999]"
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9999] flex items-center justify-center" // Added flex for centering
         >
           <div
             id="compliment-popup"
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-gray-900 shadow-2xl rounded-3xl w-full max-w-sm overflow-hidden animate-scale-in border-2 border-white/80 dark:border-gray-700/80"
+            className="relative bg-white dark:bg-gray-900 shadow-2xl rounded-3xl w-full max-w-sm overflow-hidden animate-scale-in border-2 border-white/80 dark:border-gray-700/80"
             style={{ 
               zIndex: 10000,
             }}
@@ -152,7 +152,7 @@ const ComplimentGift = () => {
             </div>
           </div>
         </div>,
-        document.body // Render into document.body
+        document.body
       )}
     </>
   );
