@@ -25,8 +25,10 @@ const ComplimentGift = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    const randomIndex = Math.floor(Math.random() * compliments.length);
-    setCompliment(compliments[randomIndex]);
+    if (isOpen) {
+      const randomIndex = Math.floor(Math.random() * compliments.length);
+      setCompliment(compliments[randomIndex]);
+    }
   }, [isOpen]);
 
   return (
