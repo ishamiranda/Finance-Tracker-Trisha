@@ -33,10 +33,10 @@ const ComplimentGift = () => {
       <DialogTrigger asChild>
         <Button
           variant="ghost"
-          className="fixed top-6 right-6 z-50 h-14 w-14 rounded-full bg-pink-100/90 dark:bg-pink-900/80 text-pink-600 dark:text-pink-300 hover:bg-pink-200/90 dark:hover:bg-pink-800/90 hover:scale-110 transition-transform duration-200 animate-gentle-float shadow-lg"
+          className="h-12 w-12 rounded-2xl bg-pink-100/90 dark:bg-pink-900/80 text-pink-600 dark:text-pink-300 hover:bg-pink-200/90 dark:hover:bg-pink-800/90 hover:scale-110 transition-all duration-200 animate-gentle-float shadow-lg border border-pink-200/50 dark:border-pink-700/50"
           aria-label="Open compliment gift"
         >
-          <Gift className="h-8 w-8" />
+          <Gift className="h-5 w-5" />
         </Button>
       </DialogTrigger>
       <DialogContent className="bg-white/95 backdrop-blur-md border-0 shadow-2xl rounded-3xl max-w-sm mx-auto text-center p-8">
