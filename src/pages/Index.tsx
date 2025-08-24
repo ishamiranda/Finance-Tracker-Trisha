@@ -109,12 +109,14 @@ const Index = () => {
               </p>
             </div>
             <div className="flex items-center gap-3">
-              <ComplimentGift />
               <ThemeToggle />
-              <CurrencySelector 
-                selectedCurrency={selectedCurrency}
-                onCurrencyChange={setSelectedCurrency}
-              />
+              <div className="flex items-center gap-3">
+                <ComplimentGift />
+                <CurrencySelector 
+                  selectedCurrency={selectedCurrency}
+                  onCurrencyChange={setSelectedCurrency}
+                />
+              </div>
             </div>
           </div>
           <div className="text-left animate-fade-in-up" style={{ animationDelay: '200ms' }}>
