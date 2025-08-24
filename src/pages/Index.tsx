@@ -88,13 +88,14 @@ const Index = () => {
   const totalSavings = financialData.goals.reduce((sum, goal) => sum + goal.currentAmount, 0);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900 p-6 transition-colors duration-300">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900 p-6 transition-colors duration-300 relative">
+      {/* Move ComplimentGift here so it floats above everything */}
+      <ComplimentGift />
       <div className="max-w-7xl mx-auto space-y-8">
         {/* Modern Header */}
         <div 
-          className="relative mb-12 p-8 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-3xl shadow-xl border border-white/20 dark:border-gray-700/20 animate-slide-in-top transition-colors duration-300"
+          className="mb-12 p-8 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-3xl shadow-xl border border-white/20 dark:border-gray-700/20 animate-slide-in-top transition-colors duration-300"
         >
-          <ComplimentGift />
           <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4 mb-6">
             <div className="text-left">
               <h1 className="text-3xl md:text-5xl font-bold mb-3">
