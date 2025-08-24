@@ -86,69 +86,69 @@ const ModernAddTransactionDialog = ({ onAddTransaction, currency }: ModernAddTra
           Add Transaction
         </Button>
       </DialogTrigger>
-      <DialogContent className="bg-white/95 backdrop-blur-md border-0 shadow-2xl rounded-3xl max-w-md">
+      <DialogContent className="bg-white/95 dark:bg-gray-900 backdrop-blur-md border-0 dark:border-gray-700 shadow-2xl rounded-3xl max-w-md">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold text-gray-900 text-center">Add New Transaction</DialogTitle>
+          <DialogTitle className="text-2xl font-bold text-gray-900 dark:text-gray-100 text-center">Add New Transaction</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-6 p-2">
           <div className="space-y-2">
-            <Label htmlFor="description" className="text-sm font-semibold text-gray-700">Description</Label>
+            <Label htmlFor="description" className="text-sm font-semibold text-gray-700 dark:text-gray-300">Description</Label>
             <Input
               id="description"
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              className="border-gray-200 rounded-xl h-12 focus:border-blue-400 focus:ring-blue-400"
+              className="border-gray-200 dark:border-gray-700 rounded-xl h-12 focus:border-blue-400 focus:ring-blue-400 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
               placeholder="Enter description"
             />
           </div>
           
           <div className="space-y-2">
-            <Label htmlFor="amount" className="text-sm font-semibold text-gray-700">Amount ({currency})</Label>
+            <Label htmlFor="amount" className="text-sm font-semibold text-gray-700 dark:text-gray-300">Amount ({currency})</Label>
             <Input
               id="amount"
               type="text"
               value={formData.amount}
               onChange={handleAmountChange}
-              className="border-gray-200 rounded-xl h-12 focus:border-blue-400 focus:ring-blue-400"
+              className="border-gray-200 dark:border-gray-700 rounded-xl h-12 focus:border-blue-400 focus:ring-blue-400 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
               placeholder="0.00"
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="type" className="text-sm font-semibold text-gray-700">Type</Label>
+            <Label htmlFor="type" className="text-sm font-semibold text-gray-700 dark:text-gray-300">Type</Label>
             <Select value={formData.type} onValueChange={(value: 'income' | 'expense') => setFormData({ ...formData, type: value })}>
-              <SelectTrigger className="border-gray-200 rounded-xl h-12 focus:border-blue-400">
+              <SelectTrigger className="border-gray-200 dark:border-gray-700 rounded-xl h-12 focus:border-blue-400 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="bg-white/95 backdrop-blur-md border-0 rounded-2xl shadow-xl">
-                <SelectItem value="income" className="rounded-xl">Income</SelectItem>
-                <SelectItem value="expense" className="rounded-xl">Expense</SelectItem>
+              <SelectContent className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-md border-0 dark:border-gray-700 rounded-2xl shadow-xl">
+                <SelectItem value="income" className="rounded-xl text-gray-900 dark:text-gray-100 hover:bg-blue-50 dark:hover:bg-gray-700 focus:bg-blue-50 dark:focus:bg-gray-700">Income</SelectItem>
+                <SelectItem value="expense" className="rounded-xl text-gray-900 dark:text-gray-100 hover:bg-blue-50 dark:hover:bg-gray-700 focus:bg-blue-50 dark:focus:bg-gray-700">Expense</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="category" className="text-sm font-semibold text-gray-700">Category</Label>
+            <Label htmlFor="category" className="text-sm font-semibold text-gray-700 dark:text-gray-300">Category</Label>
             <Select value={formData.category} onValueChange={(value) => setFormData({ ...formData, category: value })}>
-              <SelectTrigger className="border-gray-200 rounded-xl h-12 focus:border-blue-400">
+              <SelectTrigger className="border-gray-200 dark:border-gray-700 rounded-xl h-12 focus:border-blue-400 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
                 <SelectValue placeholder="Select category" />
               </SelectTrigger>
-              <SelectContent className="bg-white/95 backdrop-blur-md border-0 rounded-2xl shadow-xl">
+              <SelectContent className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-md border-0 dark:border-gray-700 rounded-2xl shadow-xl">
                 {categories.map((category) => (
-                  <SelectItem key={category} value={category} className="rounded-xl">{category}</SelectItem>
+                  <SelectItem key={category} value={category} className="rounded-xl text-gray-900 dark:text-gray-100 hover:bg-blue-50 dark:hover:bg-gray-700 focus:bg-blue-50 dark:focus:bg-gray-700">{category}</SelectItem>
                 ))}
               </SelectContent>
             </Select>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="date" className="text-sm font-semibold text-gray-700">Date</Label>
+            <Label htmlFor="date" className="text-sm font-semibold text-gray-700 dark:text-gray-300">Date</Label>
             <Input
               id="date"
               type="date"
               value={formData.date}
               onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-              className="border-gray-200 rounded-xl h-12 focus:border-blue-400 focus:ring-blue-400"
+              className="border-gray-200 dark:border-gray-700 rounded-xl h-12 focus:border-blue-400 focus:ring-blue-400 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
             />
           </div>
 
