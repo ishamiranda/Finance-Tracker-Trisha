@@ -67,29 +67,12 @@ const ComplimentGift = () => {
       {/* Custom Popup Overlay - Middle Centered */}
       {isOpen && (
         <div 
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm"
-          style={{ 
-            position: 'fixed', 
-            top: 0, 
-            left: 0, 
-            right: 0, 
-            bottom: 0, 
-            zIndex: 9999,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            minHeight: '100vh',
-            minWidth: '100vw'
-          }}
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[9999]"
         >
           <div
             id="compliment-popup"
             className="bg-white dark:bg-gray-900 shadow-2xl rounded-3xl w-full max-w-sm overflow-hidden relative animate-scale-in"
             style={{ 
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
               zIndex: 10000,
               backgroundColor: 'white',
               border: '2px solid rgba(255, 255, 255, 0.8)',
