@@ -67,17 +67,13 @@ const ComplimentGift = () => {
       {/* Custom Popup Overlay - Middle Centered */}
       {isOpen && (
         <div 
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[9999]"
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9999]"
         >
           <div
             id="compliment-popup"
-            className="bg-white dark:bg-gray-900 shadow-2xl rounded-3xl w-full max-w-sm overflow-hidden relative animate-scale-in"
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-gray-900 shadow-2xl rounded-3xl w-full max-w-sm overflow-hidden animate-scale-in border-2 border-white/80 dark:border-gray-700/80"
             style={{ 
               zIndex: 10000,
-              backgroundColor: 'white',
-              border: '2px solid rgba(255, 255, 255, 0.8)',
-              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-              margin: 0
             }}
           >
             {/* Gradient Background */}
