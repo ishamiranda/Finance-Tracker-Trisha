@@ -64,10 +64,10 @@ const ComplimentGift = () => {
         <Gift className="h-5 w-5" />
       </Button>
 
-      {/* Custom Popup Overlay - Top Layer & Perfectly Centered */}
+      {/* Custom Popup Overlay - Middle Centered */}
       {isOpen && (
         <div 
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4"
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm"
           style={{ 
             position: 'fixed', 
             top: 0, 
@@ -77,18 +77,24 @@ const ComplimentGift = () => {
             zIndex: 9999,
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center'
+            justifyContent: 'center',
+            minHeight: '100vh',
+            minWidth: '100vw'
           }}
         >
           <div
             id="compliment-popup"
             className="bg-white dark:bg-gray-900 shadow-2xl rounded-3xl w-full max-w-sm overflow-hidden relative animate-scale-in"
             style={{ 
-              position: 'relative',
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
               zIndex: 10000,
               backgroundColor: 'white',
               border: '2px solid rgba(255, 255, 255, 0.8)',
-              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
+              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+              margin: 0
             }}
           >
             {/* Gradient Background */}
